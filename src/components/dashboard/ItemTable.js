@@ -12,8 +12,9 @@ import EditIcon from '@material-ui/icons/Edit';
 import MinimizeIcon from '@material-ui/icons/Minimize';
 import Grid from '@material-ui/core/Grid';
 import axios from 'axios';
-import ItemForm from './itemForm/ItemForm';
+import ItemEditForm from './itemForm/ItemEditForm';
 import { Button } from '@material-ui/core';
+import NewItemForm from './itemForm/NewItemForm'
 
 const useStyles = makeStyles({
   table: {
@@ -25,6 +26,7 @@ export default function SimpleTable() {
   const classes = useStyles();
   const [items, setItems] = useState([])
   const [openEdit, setOpenEdit] = useState(false)
+  const [openNewItem, setNewItem] = useState(false)
   const [editingItem, setEditingItem] = useState({})
   const getItems = () => {
     axios.get('http://localhost:5000/items/') 
@@ -64,6 +66,7 @@ export default function SimpleTable() {
                     <EditIcon onClick={() => {
                       setOpenEdit(!openEdit)
                       setEditingItem(item)
+                      setNewItem(false)
                       }}
                     />
                   </TableCell>
@@ -76,8 +79,8 @@ export default function SimpleTable() {
           variant="contained" 
           color="primary" 
           onClick={() => {
-            setOpenEdit(!openEdit)
-            setEditingItem({})
+            setNewItem(!openNewItem)
+            setOpenEdit(false)
           }}
         >
           Add new item
@@ -85,10 +88,14 @@ export default function SimpleTable() {
       </Grid>
       <Grid item xs style={{display: openEdit ? "" :"none"}}>
         <div>
-          <ItemForm item={editingItem}/>
+          <ItemEditForm item={editingItem}/>
+        </div>
+      </Grid>
+      <Grid item xs style={{display: openNewItem ? "" :"none"}}>
+        <div>
+          <NewItemForm />
         </div>
       </Grid>
     </Grid>
-    
   );
 }

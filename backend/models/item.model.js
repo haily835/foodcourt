@@ -22,11 +22,11 @@ const itemSchema = new Schema({
     required: true
   },
   rating: {
-    oneStar: {type: [String]},
-    twoStar: {type: [String]},
-    threeStar: {type: [String]},
-    fourStar: {type: [String]},
-    fiveStar: {type: [String]},
+    oneStar: {type: Number},
+    twoStar: {type: Number},
+    threeStar: {type: Number},
+    fourStar: {type: Number},
+    fiveStar: {type: Number}
   }
 }, {
   timestamps: true,

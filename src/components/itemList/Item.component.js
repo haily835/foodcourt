@@ -16,6 +16,7 @@ import MoreVertIcon from '@material-ui/icons/MoreVert';
 import Rating from '@material-ui/lab/Rating';
 import StarBorderIcon from '@material-ui/icons/StarBorder';
 import Box from '@material-ui/core/Box';
+import axios from 'axios'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -78,8 +79,26 @@ export default function Item(props) {
           <Rating
             name={props.info.name}
             defaultValue={2}
-            precision={0.5}
+            precision={1}
             emptyIcon={<StarBorderIcon fontSize="inherit" />}
+            onChange={(e) => {
+              let rating = ""
+              
+              if (e.target.value === 1) {
+                  rating = "oneStar"
+              } else if (e.target.value === 2){
+                rating = "twoStar"
+              } else if (e.target.value === 3) {
+                rating = "threeStar"
+              } else if (e.target.value === 4) {
+                rating = "fourStar"
+              } else {
+                rating = "fiveStar"
+              }
+              alert("you rate this item" + rating )
+              axios.post('http://localhost:5000/items/rating/' + props.info._id, {"rating": rating})
+                .then(res => console.log(res))
+            }}
           />
         </Box>
       </CardContent>

@@ -14,7 +14,14 @@ router.route('/add').post((req, res) => {
   const name = req.body.name
   const price = req.body.price;
   const description = req.body.description;
-  const newItem = new Item({imgSrc, name, price, description});
+  const rating = {
+    oneStar: 0,
+    twoStar: 0,
+    threeStar: 0,
+    fourStar: 0,
+    fiveStar: 0
+  }
+  const newItem = new Item({imgSrc, name, price, description, rating});
 
   newItem.save()
     .then(() => res.json('Item added!'))
@@ -32,9 +39,20 @@ router.route('/:id').post((req, res) => {
     })
 })
 
+router.route('/rating/:id').post((req, res) => {
+  Item.findById(req.params.id)
+    .then(item => {
+      let star = req.body.rating
+      item.rating[star] += 1
+      item.save()
+      return res.json('Item has been rated')
+    })
+    .catch(err => res.status(400).json('Error: ' + err));
+})
+
 router.route('/delete/:id').delete((req, res) => {
   Item.findByIdAndDelete(req.params.id)
-  .then(() => res.json('Exercise deleted.'))
+  .then(() => res.json('Item deleted.'))
   .catch(err => res.status(400).json('Error: ' + err));
 })
 
