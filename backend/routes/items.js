@@ -8,7 +8,6 @@ router.route('/').get((req, res) => {
 });
 
 
-
 router.route('/add').post((req, res) => {
   const imgSrc = req.body.imgSrc;
   const name = req.body.name

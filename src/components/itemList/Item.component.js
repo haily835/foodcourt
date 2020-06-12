@@ -17,6 +17,7 @@ import Rating from '@material-ui/lab/Rating';
 import StarBorderIcon from '@material-ui/icons/StarBorder';
 import Box from '@material-ui/core/Box';
 import axios from 'axios'
+import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -24,9 +25,9 @@ const useStyles = makeStyles((theme) => ({
   },
   media: {
     height: 250,
-    paddingTop: "10%",
+    padding: 0,
     width: 250,
-    margin: "auto"
+    margin: "0 auto"
   },
   expand: {
     transform: 'rotate(0deg)',
@@ -61,7 +62,7 @@ export default function Item(props) {
         }
         action={
           <IconButton aria-label="settings">
-            <MoreVertIcon />
+            <AddShoppingCartIcon />
           </IconButton>
         }
         title={props.info.name}
@@ -71,38 +72,37 @@ export default function Item(props) {
         component="img"
         className={classes.media}
         image={props.info.imgSrc}
-        height="100"
         title={props.info.name}
       />
-      <CardContent>
+      {/* <CardContent>
         <Box component="fieldset" mb={3} borderColor="transparent">
-          <Rating
-            name={props.info.name}
-            defaultValue={2}
-            precision={1}
-            emptyIcon={<StarBorderIcon fontSize="inherit" />}
-            onChange={(e) => {
-              let rating = ""
-              
-              if (e.target.value === 1) {
-                  rating = "oneStar"
-              } else if (e.target.value === 2){
-                rating = "twoStar"
-              } else if (e.target.value === 3) {
-                rating = "threeStar"
-              } else if (e.target.value === 4) {
-                rating = "fourStar"
-              } else {
-                rating = "fiveStar"
-              }
-              alert("you rate this item" + rating )
-              axios.post('http://localhost:5000/items/rating/' + props.info._id, {"rating": rating})
-                .then(res => console.log(res))
-            }}
-          />
         </Box>
-      </CardContent>
+      </CardContent> */}
       <CardActions disableSpacing>
+        <Rating
+          name={props.info.name}
+          defaultValue={2}
+          precision={1}
+          emptyIcon={<StarBorderIcon fontSize="inherit" />}
+          onChange={(e) => {
+            let rating = ""
+
+            if (e.target.value === 1) {
+              rating = "oneStar"
+            } else if (e.target.value === 2) {
+              rating = "twoStar"
+            } else if (e.target.value === 3) {
+              rating = "threeStar"
+            } else if (e.target.value === 4) {
+              rating = "fourStar"
+            } else {
+              rating = "fiveStar"
+            }
+            alert("you rate this item" + rating)
+            axios.post('http://localhost:5000/items/rating/' + props.info._id, { "rating": rating })
+              .then(res => console.log(res))
+          }}
+        />
         <IconButton
           className={clsx(classes.expand, {
             [classes.expandOpen]: expanded,
