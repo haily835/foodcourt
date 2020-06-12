@@ -32,12 +32,13 @@ connection.once('open', () => {
 // require
 const itemsRouter = require('./routes/items');
 const usersRouter = require('./routes/users');
+const ordersRouter = require('./routes/orders');
 // and use
 // everytime use root/exercises
 app.use('/items', itemsRouter);
 // everytime use root/users
 app.use('/users', usersRouter);
-
+app.use('/orders', ordersRouter);
 // start server, start to listening on a certain ports
 app.listen(port, () => {
     console.log(`Server is running on port: ${port}`);

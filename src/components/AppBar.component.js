@@ -90,7 +90,7 @@ export default function CustomerAppBar(props) {
           </Button>
         </Toolbar>
       </AppBar>
-      <ItemList items={results} />
+      <ItemList items={results} customerID={props.customerInfo._id}/>
     </div>
   );
 }
