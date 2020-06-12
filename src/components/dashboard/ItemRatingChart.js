@@ -37,7 +37,7 @@ export default function ItemRatingChart(props) {
     ]
   }
   
-
+  
   return (
     <React.Fragment>
       <Title>Customer votes</Title>
