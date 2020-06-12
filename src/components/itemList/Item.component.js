@@ -62,7 +62,7 @@ export default function Item(props) {
         }
         action={
           <IconButton aria-label="settings">
-            <AddShoppingCartIcon />
+            <AddShoppingCartIcon onClick={() => props.handleSelect(props.info)}/>
           </IconButton>
         }
         title={props.info.name}

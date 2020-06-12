@@ -56,7 +56,7 @@ export default function Report() {
     // clean up 
     return () => {setReportUnMount(true)}
   }
-, [])
+  , [])
 
   return (
     <Container maxWidth="lg" className={classes.container}>
