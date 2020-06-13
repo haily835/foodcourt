@@ -9,11 +9,13 @@ import axios from 'axios';
 function createOrderData(order, cusID) {
     let total = 0;
     order.forEach(item => {total += item.price*item.number})
-    return {
+    let rv = {
         "customerID": cusID,
         "items": order,
         "total": total
     }
+    console.log(rv)
+    return rv
 }
 
 function ItemsList(props) {
@@ -97,8 +99,9 @@ function ItemsList(props) {
                     color="secondary"
                     onClick={()=>{
                         axios.post('http://localhost:5000/orders/add', orderPostData)
-                            .then(res => console.log(res))
-                        // this line may be change for further input for user like dia chi, .. in ra pdf
+                            .then(res => console.log(res));
+                        setSelectedItems([])
+                        setOrder([])
                         setCheckList(null)
                     }}
                 >

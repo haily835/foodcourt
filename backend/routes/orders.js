@@ -9,6 +9,22 @@ router.route('/').get((req, res) => {
     .catch(err => res.status(400).json('Error: ' + err));
 });
 
+// get the total order of the current date 
+router.route('/total').get((req, res) => {
+  let returnValue = 0
+  let currDate = new Date()
+  Order.find()
+    .then(orders => {
+      orders.forEach(order => {
+        if (order.createdAt.toDateString() === currDate.toDateString()) {
+          returnValue += order.total
+        }
+      })
+      res.json({"total": returnValue})
+    })
+    .catch(err => res.status(400).json('Error:' + err))
+});
+
 // http:localhost:5000/orders/add : add new order
 router.route('/add').post((req, res) => {
   const customerID = req.body.customerID;

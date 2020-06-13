@@ -1,8 +1,9 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import Link from '@material-ui/core/Link';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Title from './Title';
+import axios from 'axios'
 
 function preventDefault(event) {
   event.preventDefault();
@@ -16,20 +17,33 @@ const useStyles = makeStyles({
 
 export default function Deposits() {
   const classes = useStyles();
+  const [total, setTotal] = useState(0)
+  const curr = new Date()
+
+  useEffect(
+    () => {
+      const id= setInterval(async () => {
+        const res = await axios.get('http://localhost:5000/orders/total')
+        console.log(res)
+        setTotal(res.data.total)
+      }, 1000);
+      return () => {
+        clearInterval(id);
+      };
+    },
+    ['once'],
+  );
+
+  
   return (
     <React.Fragment>
-      <Title>Recent Deposits</Title>
+      <Title>Total payment</Title>
       <Typography component="p" variant="h4">
-        $3,024.00
+        {total}
       </Typography>
       <Typography color="textSecondary" className={classes.depositContext}>
-        on 15 March, 2019
+        on {curr.toDateString()}
       </Typography>
-      <div>
-        <Link color="primary" href="#" onClick={preventDefault}>
-          View balance
-        </Link>
-      </div>
     </React.Fragment>
   );
 }
