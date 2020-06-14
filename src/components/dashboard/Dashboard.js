@@ -23,7 +23,11 @@ import ItemTable from './ItemTable'
 import { BrowserRouter as Router, Route, Switch, useRouteMatch } from "react-router-dom";
 import { Link as RouterLink } from "react-router-dom"
 import Report from './Report'
+import ManageStaff from './ManageStaff'
+
+
 const drawerWidth = 240;
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -133,7 +137,7 @@ export default function Dashboard(props) {
         <ListItemIcon>
           <PeopleIcon />
         </ListItemIcon>
-        <ListItemText primary="Manage staff" />
+        <RouterLink to={`${url}/addStaff`}><ListItemText primary="Add Staff" /></RouterLink>
       </ListItem>
     </div>
   );
@@ -193,6 +197,12 @@ export default function Dashboard(props) {
             <main className={classes.content}>
               <div className={classes.appBarSpacer} />
               <ItemTable />
+            </main>
+          </Route>
+          <Route path={`${path}/addStaff`}>
+            <main className={classes.content}>
+              <div className={classes.appBarSpacer} />
+              <ManageStaff/>
             </main>
           </Route>
         </Switch>
