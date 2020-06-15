@@ -147,6 +147,9 @@ export default function RegisterForm() {
                   <option value="none" disabled>Select your role</option>
                   <option value="customer">Customer</option>
                   <option value="manager">Manager</option>
+                  <option value="vendor">Vendor</option>
+                  <option value="cook">Cook</option>
+                  <option value="it">It</option>
                 </NativeSelect>
               </FormControl>
             </Grid>

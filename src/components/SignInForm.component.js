@@ -80,6 +80,15 @@ export default function SignInForm() {
                   if(res.data[0].role === "customer") {
                     window.location = '/user/customer/' + res.data[0]._id;
                   }
+                  if(res.data[0].role === "it") {
+                    window.location = '/user/it/' + res.data[0]._id;
+                  }
+                  if(res.data[0].role === "cook") {
+                    window.location = '/user/cook/' + res.data[0]._id;
+                  }
+                  if(res.data[0].role === "vendor") {
+                    window.location = '/user/vendor/' + res.data[0]._id;
+                  }
                 }
               })
           }}
