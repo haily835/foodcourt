@@ -24,7 +24,7 @@ import { BrowserRouter as Router, Route, Switch, useRouteMatch } from "react-rou
 import { Link as RouterLink } from "react-router-dom"
 import Report from './Report'
 import ManageStaff from './ManageStaff'
-
+import StaffList from './StaffList'
 
 const drawerWidth = 240;
 
@@ -131,7 +131,7 @@ export default function Dashboard(props) {
         <ListItemIcon>
           <ShoppingCartIcon />
         </ListItemIcon>
-        <ListItemText primary="Sales" />
+        <RouterLink to={`${url}/viewStaff`}><ListItemText primary="View all staff" /></RouterLink>
       </ListItem>
       <ListItem button>
         <ListItemIcon>
@@ -197,6 +197,12 @@ export default function Dashboard(props) {
             <main className={classes.content}>
               <div className={classes.appBarSpacer} />
               <ItemTable />
+            </main>
+          </Route>
+          <Route path={`${path}/viewStaff`}>
+            <main className={classes.content}>
+              <div className={classes.appBarSpacer} />
+              <StaffList />
             </main>
           </Route>
           <Route path={`${path}/addStaff`}>

@@ -24,8 +24,9 @@ const useStyles = makeStyles(theme => ({
 }
 ));
 
-export default function ManagerStaff() {
+export default function ManagerStaff(props) {
   const classes = useStyles();
+  const [isChange, setIsChange] = useState(false)
   const [name, setName] = useState("")
   const [email, setEmail] = useState("")
   const [idNumber, setIdNumber] = useState("")
@@ -34,6 +35,18 @@ export default function ManagerStaff() {
   const [phoneNumber, setPhoneNumber] = useState("")
   const [role, setRole] = useState("")
 
+  useEffect(() => {
+    if(props.info) {
+      setName(props.info.name)
+      setEmail(props.info.email)
+      setIdNumber(props.info.idNumber)
+      setAge(props.info.age)
+      setGender(props.info.gender)
+      setPhoneNumber(props.info.phoneNumber)
+      setRole(props.info.role)
+    }
+  }, [props])
+  
   return (
     <Paper elevation={3} style={{padding: "30px"}}>
       <Container maxWidth="sm" style={{marginTop: "50px", position: "relative"}}>
@@ -60,6 +73,7 @@ export default function ManagerStaff() {
                     value={name}
                     onChange={(e) => {
                       setName(e.target.value)
+                      setIsChange(true)
                     }}
                   />
                 </Grid>
@@ -88,6 +102,7 @@ export default function ManagerStaff() {
                     label="Identity card number"
                     onChange={(e) => {
                       setIdNumber(e.target.value)
+                      setIsChange(true)
                     }}
                   />
                 </Grid>
@@ -104,6 +119,7 @@ export default function ManagerStaff() {
                       color="primary"
                       onChange={(e) => {
                         setAge(e.target.value)
+                        setIsChange(true)
                       }}
                     >
                     </Input>
@@ -117,6 +133,7 @@ export default function ManagerStaff() {
                       value={gender} 
                       onChange={(e) => {
                         setGender(e.target.value)
+                        setIsChange(true)
                       }}
                     >
                       <FormControlLabel value="female" control={<Radio />} label="Female" />
@@ -135,6 +152,7 @@ export default function ManagerStaff() {
                     label="Phone number"
                     onChange={(e) => {
                       setPhoneNumber(e.target.value)
+                      setIsChange(true)
                     }}
                   />
                 </Grid>
@@ -149,6 +167,7 @@ export default function ManagerStaff() {
                     label="Role"
                     onChange={(e) => {
                       setRole(e.target.value)
+                      setIsChange(true)
                     }}
                   />
                 </Grid>
@@ -156,7 +175,8 @@ export default function ManagerStaff() {
               <div className={classes.root} style={{"display": "flex", "align-items": "center", "justify-content": "center"}}>
                 <Button 
                   color="primary" 
-                  variant="outlined" 
+                  variant="outlined"
+                  disabled={!isChange}
                   onClick={() => {
                     const staff = {
                       "name": name,
@@ -167,18 +187,25 @@ export default function ManagerStaff() {
                       "gender": gender,
                       "role": role
                     }
-                    axios.post('http://localhost:5000/staff/add', staff)
-                      .then(res => alert(res.data))
-                    setName("")
-                    setEmail("")
-                    setIdNumber("")
-                    setAge(0)
-                    setGender("")
-                    setPhoneNumber("")
-                    setRole("")
+
+                    if(props.info) {
+                      axios.post('http://localhost:5000/staff/' + props.info._id, staff)
+                        .then(res => console.log(res.data))
+                      props.handleClose(prev => !prev)
+                    } else {
+                      axios.post('http://localhost:5000/staff/add', staff)
+                        .then(res => alert(res.data))
+                        setName("")
+                        setEmail("")
+                        setIdNumber("")
+                        setAge(0)
+                        setGender("")
+                        setPhoneNumber("")
+                        setRole("")
+                    }
                   }}
                 >
-                  Add
+                  {props.info ? "Save" : "Add"}
                 </Button>
                 <Button 
                   color="secondary" 

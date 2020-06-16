@@ -24,4 +24,21 @@ router.route('/add').post((req, res) => {
     .catch(err => res.status(400).json('Error: ' + err));
 });
 
+// update by id 
+router.route('/:id').post((req, res) => {
+  Staff.findById(req.params.id)
+    .then(res => {
+      res.name = req.body.name
+      res.email = req.body.email
+      res.idNumber = req.body.idNumber
+      res.phoneNumber = req.body.phoneNumber
+      res.gender = req.body.gender
+      res.role = req.body.role
+      res.age = req.body.age
+      res.save()
+        .then(() => res.json('Staff modified'))
+        .catch(err => res.status(400).json('Error: ' + err));
+    })
+})
+
 module.exports = router;
