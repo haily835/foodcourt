@@ -12,22 +12,6 @@ import TextField from '@material-ui/core/TextField';
 import SearchIcon from '@material-ui/icons/Search';
 var ReactCSSTransitionGroup = require('react-addons-css-transition-group');
 
-
-function EditForm(props) {
-  useEffect(() => {
-    console.log(props.info)
-  }, [props])
-  return (
-    <form className="form">
-				<input
-					type="number"
-					className="input"
-					placeholder="Age"
-				/>
-    </form>
-  )
-}
-
 function Persona(props) {
   return (
     <div>
@@ -42,7 +26,9 @@ function Persona(props) {
         type="button"
         className="close"
         onClick={() => {
-          alert("a function to delete a staff");
+					axios.delete('http://localhost:5000/staff/delete/'+props.info._id)
+            .then(response => { console.log(response.data)});
+          window.location = window.location.href
         }}
       >
         &times;
@@ -117,8 +103,6 @@ function StaffList() {
 		);
 		setDisplayItems(items);
 	}
-
-
 
   useEffect(() => {
     var items = data.map(item => 

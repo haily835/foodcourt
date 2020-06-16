@@ -41,4 +41,10 @@ router.route('/:id').post((req, res) => {
     })
 })
 
+router.route('/delete/:id').delete((req, res) => {
+  Staff.findByIdAndDelete(req.params.id)
+  .then(() => res.json('Staff deleted.'))
+  .catch(err => res.status(400).json('Error: ' + err));
+})
+
 module.exports = router;
