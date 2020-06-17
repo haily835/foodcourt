@@ -22,8 +22,10 @@ export default function Deposits() {
 
   useEffect(
     () => {
+      let returnValue = 0
+      let currDate = new Date()
       const id= setInterval(async () => {
-        const res = await axios.get('http://localhost:5000/orders/total')
+        const res = await axios.get('http://localhost:5000/orders/' + currDate.toDateString())
         console.log(res)
         setTotal(res.data.total)
       }, 1000);

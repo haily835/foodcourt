@@ -1,14 +1,15 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import { useTheme } from '@material-ui/core/styles';
 import { LineChart, Line, XAxis, YAxis, Label, ResponsiveContainer } from 'recharts';
-import Title from './Title';
+import Title from './Title'
+import axios from 'axios'
 
 // Generate Sales Data
 function createData(time, amount) {
   return { time, amount };
 }
 
-const data = [
+const dataDefault = [
   createData('00:00', 0),
   createData('03:00', 300),
   createData('06:00', 600),
@@ -22,10 +23,26 @@ const data = [
 
 export default function Chart() {
   const theme = useTheme();
+  const [data, setData] = useState([dataDefault]) 
+
+  useEffect(
+    () => {
+      const id= setInterval(async () => {
+        const res = await axios.get('http://localhost:5000/orders/week')
+        console.log(res)
+        setData(res.data)
+      }, 1000);
+      return () => {
+        clearInterval(id);
+      };
+    },
+    ['once'],
+  );
+
 
   return (
     <React.Fragment>
-      <Title>Today</Title>
+      <Title>7 days period</Title>
       <ResponsiveContainer>
         <LineChart
           data={data}
