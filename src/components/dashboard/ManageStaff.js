@@ -31,6 +31,7 @@ export default function ManagerStaff(props) {
   const [email, setEmail] = useState("")
   const [idNumber, setIdNumber] = useState("")
   const [age, setAge] = useState(0)
+  const [imgUrl,setImgUrl] = useState("")
   const [gender, setGender] = useState("")
   const [phoneNumber, setPhoneNumber] = useState("")
   const [role, setRole] = useState("")
@@ -39,6 +40,7 @@ export default function ManagerStaff(props) {
     if(props.info) {
       setName(props.info.name)
       setEmail(props.info.email)
+      setImgUrl(props.info.imgUrl)
       setIdNumber(props.info.idNumber)
       setAge(props.info.age)
       setGender(props.info.gender)
@@ -88,6 +90,20 @@ export default function ManagerStaff(props) {
                     value={email}
                     onChange={(e) => {
                       setEmail(e.target.value)
+                    }}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    name="imgUrl"
+                    variant="outlined"
+                    required
+                    fullWidth
+                    id="imgUrl"
+                    label="Img Url"
+                    value={imgUrl}
+                    onChange={(e) => {
+                      setImgUrl(e.target.value)
                     }}
                   />
                 </Grid>
@@ -181,6 +197,7 @@ export default function ManagerStaff(props) {
                     const staff = {
                       "name": name,
                       "email": email,
+                      "imgUrl": imgUrl,
                       "idNumber": idNumber,
                       "age": age,
                       "phoneNumber": phoneNumber,
@@ -202,6 +219,7 @@ export default function ManagerStaff(props) {
                         setGender("")
                         setPhoneNumber("")
                         setRole("")
+                        setImgUrl("")
                     }
                   }}
                 >
@@ -218,6 +236,7 @@ export default function ManagerStaff(props) {
                     setGender("")
                     setPhoneNumber("")
                     setRole("")
+                    setImgUrl("")
                   }}
                 >
                   Cancel

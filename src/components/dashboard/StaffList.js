@@ -17,7 +17,7 @@ function Persona(props) {
     <div>
       <ul>
         <li className="card__list avatar--image">
-          <img src="https://cdn.onlinewebfonts.com/svg/img_454474.png" alt="staff" />
+          <img src={props.info.imgUrl ? props.info.imgUrl :"https://cdn.onlinewebfonts.com/svg/img_454474.png"} alt="staff" />
         </li>
         <li className="card__list text--primary">{props.info.name}</li>
         <li className="card__list text--small">{props.info.role}</li>
@@ -136,6 +136,12 @@ function StaffList() {
 									{" "}Vendor:
 									<span className="focus">
 										{/*count the number of vendor in data*/}
+									</span>
+								</div>
+								<div className="category">
+									{" "}Waiter:
+									<span className="focus">
+										{/*count the number of cook in data*/}
 									</span>
 								</div>
 							</Grid>

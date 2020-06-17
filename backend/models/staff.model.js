@@ -15,6 +15,9 @@ const staffSchema = new Schema({
     type: String,
     required:true,
   },
+  imgUrl: {
+    type: String,
+  },
   age: {
     type: Number,
     required: true

@@ -16,8 +16,8 @@ router.route('/add').post((req, res) => {
   const phoneNumber = req.body.phoneNumber;
   const gender = req.body.gender;
   const role = req.body.role;
-  
-  const newStaff = new Staff({name, email, idNumber, age, phoneNumber, gender, role});
+  const imgUrl = req.body.imgUrl
+  const newStaff = new Staff({name, email, idNumber, age, phoneNumber, gender, role, imgUrl});
 
   newStaff.save()
     .then(() => res.json('Staff added!'))
@@ -35,6 +35,7 @@ router.route('/:id').post((req, res) => {
       res.gender = req.body.gender
       res.role = req.body.role
       res.age = req.body.age
+      res.imgUrl = req.body.imgUrl
       res.save()
         .then(() => res.json('Staff modified'))
         .catch(err => res.status(400).json('Error: ' + err));
