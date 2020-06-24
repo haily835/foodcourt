@@ -3,15 +3,24 @@ import axios from "axios"
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import Box from '@material-ui/core/Box';
-import Typography from '@material-ui/core/Typography';
+
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import { NavLink, Switch, Route, useLocation } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
+import Box from '@material-ui/core/Box';
+import Paper from '@material-ui/core/Paper';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import { borders } from '@material-ui/system';
+import ReactDOM from 'react-dom';
 
-import './vo_style.css'
+
+
+import Emp_manager from './func/emp_manager'
+import Rp_manager from './func/rp_manager'
 import { ButtonGroup } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
@@ -24,10 +33,19 @@ const useStyles = makeStyles((theme) => ({
   title: {
     flexGrow: 1,
   },
+  paper: {
+    padding: theme.spacing(2),
+    textAlign: 'center',
+    color: theme.palette.text.secondary,
+    border:1,
+  },
 
 }));
 
+//Global vars
 
+
+//
 const Vo_main =  () => (
   <Switch>
     <Route exact path='/user/vendor/:id' component={Home}></Route>
@@ -36,20 +54,23 @@ const Vo_main =  () => (
   </Switch>
 );
 
+//functions 
+function refreshPage() {
+  window.location.reload(false);
+}
+
+
 const Home = () => (
-  <div className='home'>
-    <h1>Welcome to my portfolio website</h1>
-    <p> Feel free to browse around and learn more about me.</p>
-  </div>
+  <Rp_manager/>
 );
 
+
+
 const About = () => (
-  <div className='about'>
-    <h1>About Me</h1>
-    <p>Ipsum dolor dolorem consectetur est velit fugiat. Dolorem provident corporis fuga saepe distinctio ipsam? Et quos harum excepturi dolorum molestias?</p>
-    <p>Ipsum dolor dolorem consectetur est velit fugiat. Dolorem provident corporis fuga saepe distinctio ipsam? Et quos harum excepturi dolorum molestias?</p>
-  </div>
+  <Emp_manager/>
 );
+
+
 
 const Contact = () => (
   <div className='contact'>
@@ -81,6 +102,9 @@ const Drop = () => (
   </Grid> 
 ) ;
 
+
+
+
 export default function VendorUI(props) {
    const classes = useStyles();
    
@@ -108,6 +132,7 @@ export default function VendorUI(props) {
             <MenuIcon />
           </IconButton>
             <Drop />
+          
           <Button color="inherit">Login</Button>
         </Toolbar>
       </AppBar>
@@ -115,6 +140,7 @@ export default function VendorUI(props) {
       
   </div>
   <Vo_main />
+
     </div>
   )
 }
