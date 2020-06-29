@@ -68,7 +68,7 @@ export default function Report() {
       .then((res) => {
         const pdfBlob = new Blob([res.data], { type: 'application/pdf' });
 
-        saveAs(pdfBlob, 'newPdf.pdf');
+        saveAs(pdfBlob, 'report.pdf');
       })
   }
 
@@ -101,7 +101,7 @@ export default function Report() {
         </Grid>
         {/* Export Pdf */}
         <Grid item xs={12}>
-          <Button onClick={createAndDownloadPdf}>Download Pdf</Button>
+          <Button variant="outlined" onClick={createAndDownloadPdf}>Download Pdf</Button>
         </Grid>
         {/* Recent Orders */}
         <Grid item xs={12}>

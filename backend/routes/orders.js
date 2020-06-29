@@ -30,7 +30,7 @@ router.route('/week').get((req, res) => {
               returnValue += order.total
             }
           })
-          dateArray[6-i] = {time: d.getDate() + "/" + d.getMonth() , amount: returnValue}
+          dateArray[6-i] = {time: d.getDate() + "/" +( d.getMonth() + 1) , amount: returnValue}
           i -= 1;
         }
 
