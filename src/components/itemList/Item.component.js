@@ -98,7 +98,7 @@ export default function Item(props) {
             } else {
               rating = "fiveStar"
             }
-            alert("you rate this item" + rating)
+            alert("You rate this item " + rating)
             axios.post('http://localhost:5000/items/rating/' + props.info._id, { "rating": rating })
               .then(res => console.log(res))
           }}

@@ -21,7 +21,7 @@ const dataDefault = [
   createData('24:00', undefined),
 ];
 
-export default function Chart() {
+export default function Chart(props) {
   const theme = useTheme();
   const [data, setData] = useState([dataDefault]) 
 
@@ -31,6 +31,7 @@ export default function Chart() {
         const res = await axios.get('http://localhost:5000/orders/week')
         console.log(res)
         setData(res.data)
+        props.handlePrint(res.data)
       }, 1000);
       return () => {
         clearInterval(id);

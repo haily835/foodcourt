@@ -94,7 +94,7 @@ function ItemsList(props) {
 
         <Grid item xs={4} style={{display: checkList ? "" : "none", paddingTop: 34, marginRight: 24}}>
             {checkList}
-            <h1 align="left" ><b>Total og: {orderPostData.total}</b></h1>            
+            <h1 align="left" ><b>Total: {orderPostData.total}</b></h1>            
             <div style={{display: "flex", "justify-content": "center", "align-items": "center"}}>
                 <Button 
                     variant="contained" 
@@ -115,4 +115,4 @@ function ItemsList(props) {
     )
 }
 
-export default ItemsList;
+export default ItemsList
