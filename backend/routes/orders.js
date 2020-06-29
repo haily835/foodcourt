@@ -57,15 +57,27 @@ router.route('/:date').get((req, res) => {
 
 // http:localhost:5000/orders/add : add new order
 router.route('/add').post((req, res) => {
-  const customerID = req.body.customerID;
+  const customerID = req.body.customerID
   const items = req.body.items
-  const total = req.body.total;
-
-  const newOrder = new Order({customerID, items, total});
+  const total = req.body.total
+  const status = req.body.status
+  const newOrder = new Order({customerID, items, total, status});
 
   newOrder.save()
     .then(() => res.json('Order added!'))
     .catch(err => res.status(400).json('Error: ' + err));
+});
+
+// http:localhost:5000/orders/:id/:status
+// update status of an order
+router.route('/:id/:status').post((req, res) => {
+  Order.findById(req.params.id)
+  .then(order => {
+    order.status = req.params.status
+    order.save()
+    res.json('Order status updated')
+  })
+  .catch(err => res.status(400).json('Error:' + err))
 });
 
 module.exports = router;

@@ -33,28 +33,34 @@ const useStyles = makeStyles((theme) => ({
 
 function ListFood() {
   const classes = useStyles();
-  const [state, setState] = useState({ listOrder: [] });
+  
+  const [orders, setOrders] = useState(null)
+  
+  useEffect(
+    () => {
+      const id= setInterval(async () => {
+        const res = await axios.get('http://localhost:5000/orders/')
+        
+        // only get the new order
+        let newOrders = res.data.filter((order) => order.status === "New")
+        const renderHTML = () => {
+          return newOrders.map((item) => {
+            return <Order key={item._id} order={item} />;
+          });
+        };
+        setOrders(renderHTML)
+      }, 1000);
+      return () => {
+        clearInterval(id);
+      };
+    },
+    ['once'],
+  );
 
-  useEffect(() => {
-    Axios({
-      method: "GET",
-      url: "http://localhost:5000/orders/",
-    }).then((rs) => {
-      setState({
-        listOrder: rs.data,
-      });
-    });
-  }, []);
-
-  const renderHTML = () => {
-    return state.listOrder.map((item) => {
-      return <Order key={item._id} order={item} />;
-    });
-  };
-
+  
   return (
     <div className={classes.paper}>
-      <div className={classes.paper}>{renderHTML()}</div>
+      <div className={classes.paper}>{orders}</div>
     </div>
   )
 }

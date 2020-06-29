@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -7,10 +7,11 @@ import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
+import axios from "axios"
 
 import DeleteIcon from "@material-ui/icons/Delete";
 import PlayCircleFilledWhiteRoundedIcon from "@material-ui/icons/PlayCircleFilledWhiteRounded";
-import { Button, Snackbar } from "@material-ui/core";
+import { Button, Snackbar, Container } from "@material-ui/core";
 
 import Backdrop from "@material-ui/core/Backdrop";
 import CircularProgress from "@material-ui/core/CircularProgress";
@@ -27,7 +28,7 @@ const useStyles = makeStyles({
   },
 });
 
-export default function Order() {
+export default function Order(props) {
   const classes = useStyles();
 
   const [open, setOpen] = React.useState(false);
@@ -42,29 +43,48 @@ export default function Order() {
     setOpen(false);
   };
 
+  const [details, setDetails] = useState(null)
+
+  useEffect(() => {
+    let details = () => props.order.items.map(item => {
+      return <li>{item.name}: {item.number}</li>
+    })
+    setDetails(details)
+  }, [])
+
+  // change the status of an order to ready to deliver
+  const handleFinish = (orderID) => {
+    axios.post('http://localhost:5000/orders/' + orderID + "/" + "Ready", )
+      .then(res => console.log(res))
+  }
+
+
   return (
-    <div>
+    <Container>
+      <h1 style={{"marginBottom": "auto", "color": "#0356fc", "fontWeight": "bold"}}>Order ID: {props.order._id}</h1>
       <TableContainer component={Paper}>
-        <h1>Order</h1>
-        <Table className={classes.table} aria-label="caption table">
+        <Table className={classes.table} aria-label="caption table" >
           <TableHead>
             <TableRow>
-              <TableCell align="right">Name</TableCell>
-              <TableCell align="right">Number</TableCell>
-              <TableCell align="right">Price</TableCell>
+              <TableCell align="right">Status</TableCell>
+              <TableCell align="right">Dish</TableCell>
+              <TableCell align="right">Customer ID</TableCell>
               <TableCell align="right">Accept/Deny</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             <TableRow>
-              <TableCell component="th" scope="row">
-                {classes.name}
+              <TableCell 
+                align="right"
+                style={{"color": "#fc7303", "fontSize":"20px"}}
+              >
+                {props.order.status}
               </TableCell>
-              <TableCell align="right">{classes.number}</TableCell>
-              <TableCell align="right">{classes.price}</TableCell>
+              <TableCell align="right"><ul>{details}</ul></TableCell>
+              <TableCell align="right">{props.order.customerID}</TableCell>
               <TableCell align="right">
                 <Button>
-                  <PlayCircleFilledWhiteRoundedIcon onClick={handleClick}/>
+                  <PlayCircleFilledWhiteRoundedIcon onClick={() => handleFinish(props.order._id)}/>
                 </Button>
                 <Button>
                   <DeleteIcon />
@@ -84,6 +104,6 @@ export default function Order() {
           Finished!
         </Alert>
       </Snackbar>
-    </div>
+    </Container>
   );
 }

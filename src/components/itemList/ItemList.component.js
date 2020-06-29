@@ -12,7 +12,8 @@ function createOrderData(order, cusID) {
     let rv = {
         "customerID": cusID,
         "items": order,
-        "total": total
+        "total": total,
+        "status": "New"
     }
     console.log(rv)
     return rv
@@ -53,7 +54,7 @@ function ItemsList(props) {
                     "_id": newItemId,
                     "name": newItemName,
                     "number": 1,
-                    "price": newItemPrice
+                    "price": newItemPrice,
                 }
     
                 setOrder((prev) => {
