@@ -11,6 +11,7 @@ import ItemRatingChart from './ItemRatingChart'
 import ItemMenuChart from './ItemMenuChart'
 import axios from 'axios'
 import { Button } from '@material-ui/core';
+import { saveAs } from 'file-saver';
 const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
@@ -43,6 +44,9 @@ export default function Report() {
   const [currItemId, setCurrItemId] = useState("")
   const abortController = new AbortController();
   const [isReportUnMount, setReportUnMount] = useState(false)
+  // state of the report to pdf
+  const [sevenDaysPeriod, setSevenDaysPeriod] = useState([])
+  const [ratingData, setRatingData] = useState({})
   useEffect(() => {
     const loadData = async () => {
       const result = await axios.get('http://localhost:5000/items/', { signal: abortController.signal })
@@ -58,13 +62,23 @@ export default function Report() {
   }
   , [])
 
+  const createAndDownloadPdf = () => {
+    axios.post('http://localhost:5000/create-pdf', {"sevenDaysPeriod": sevenDaysPeriod, "items": items})
+      .then(() => axios.get('http://localhost:5000/fetch-pdf', { responseType: 'blob' }))
+      .then((res) => {
+        const pdfBlob = new Blob([res.data], { type: 'application/pdf' });
+
+        saveAs(pdfBlob, 'newPdf.pdf');
+      })
+  }
+
   return (
     <Container maxWidth="lg" className={classes.container}>
       <Grid container spacing={3}>
         {/* Chart */}
         <Grid item xs={12} md={8} lg={9}>
           <Paper className={fixedHeightPaper}>
-            <Chart />
+            <Chart handlePrint={setSevenDaysPeriod}/>
           </Paper>
         </Grid>
         {/* Recent Deposits */}
@@ -84,6 +98,10 @@ export default function Report() {
           <Paper className={fixedHeightPaper}>
             <ItemRatingChart item={currentItem}/>
           </Paper>
+        </Grid>
+        {/* Export Pdf */}
+        <Grid item xs={12}>
+          <Button onClick={createAndDownloadPdf}>Download Pdf</Button>
         </Grid>
         {/* Recent Orders */}
         <Grid item xs={12}>
