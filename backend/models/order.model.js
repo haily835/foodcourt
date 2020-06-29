@@ -14,6 +14,10 @@ const orderSchema = new Schema({
   total: {
     type: Number,
     required:true,
+  },
+  status: {
+    type: String,
+    required: true,
   }
 }, {
   timestamps: true,
