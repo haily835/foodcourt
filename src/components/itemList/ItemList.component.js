@@ -6,7 +6,7 @@ import Button from '@material-ui/core/Button';
 import CheckList from './CheckList.compoment';
 import axios from 'axios';
 
-function createOrderData(order, cusID) {
+export function createOrderData(order, cusID) {
     let total = 0;
     order.forEach(item => {total += item.price*item.number})
     let rv = {
