@@ -17,8 +17,8 @@ import Rating from '@material-ui/lab/Rating';
 import StarBorderIcon from '@material-ui/icons/StarBorder';
 import Box from '@material-ui/core/Box';
 import axios from 'axios'
-import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
-
+import AddShoppingCart from '@material-ui/icons/AddShoppingCart';
+import {thousands_separators} from './CheckList.compoment'
 const useStyles = makeStyles((theme) => ({
   root: {
     maxWidth: 345,
@@ -61,13 +61,14 @@ export default function Item(props) {
           </Avatar>
         }
         action={
-          <IconButton aria-label="settings">
-            <AddShoppingCartIcon onClick={() => props.handleSelect(props.info)}/>
-          </IconButton>
+        <IconButton aria-label="settings">
+          <AddShoppingCart onClick={() => props.handleSelect(props.info)}/>
+        </IconButton>   
         }
         title={props.info.name}
-        subheader={props.info.price + "VND"}
+        subheader={thousands_separators(props.info.price) + "VND"}
       />
+      
       <CardMedia
         component="img"
         className={classes.media}
@@ -98,7 +99,7 @@ export default function Item(props) {
             } else {
               rating = "fiveStar"
             }
-            alert("You rate this item " + rating)
+            alert("you rate this item" + rating)
             axios.post('http://localhost:5000/items/rating/' + props.info._id, { "rating": rating })
               .then(res => console.log(res))
           }}
