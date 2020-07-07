@@ -117,10 +117,10 @@ export default function SignInForm() {
             autoComplete="current-password"
             onChange={(e) => {setEnteredPass(e.target.value)}}
           />
-          <FormControlLabel
+          {/* <FormControlLabel
             control={<Checkbox value="remember" color="primary" />}
             label="Remember me"
-          />
+          /> */}
           <Button
             type="submit"
             fullWidth
@@ -131,11 +131,11 @@ export default function SignInForm() {
             Sign In
           </Button>
           <Grid container>
-            <Grid item xs>
+            {/* <Grid item xs>
               <Link href="#" variant="body2">
                 Forgot password?
               </Link>
-            </Grid>
+            </Grid> */}
             <Grid item>
               <Link 
                 href="#" 
