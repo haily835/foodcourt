@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react'
+import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Item from './Item.component'
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 import CheckList from './CheckList.compoment';
+import Bill from '../ReviewBill';
+import Confirm from '../ConfirmModal'
 import axios from 'axios';
 
 export function createOrderData(order, cusID) {
@@ -25,7 +28,9 @@ function ItemsList(props) {
     const [checkList, setCheckList] = useState(null)
 
     // the object to send to api
-    const [orderPostData, setOrderPostData] = useState({})
+    const [orderPostData, setOrderPostData] = useState({});
+    const [bill, setBill] = useState(null);
+    const [confirm, setConfirm] = useState(null);
     // when customer click a item
     const handleSelect = (item) => {
         setSelectedItems(prevState => {
@@ -62,18 +67,72 @@ function ItemsList(props) {
                     return prev
                 })
             }
-            setCheckList((<CheckList items={order}/>))
-            console.log(order)
-
             setOrderPostData(createOrderData(order, props.customerID))
-
+            setCheckList((<CheckList items={
+                createOrderData(order, props.customerID)} 
+                handleIncrement={handleIncrement} 
+                handleDecrement={handleDecrement}
+                handleDelete={handleDelete}
+            />))
+            console.log(order)
         }
+    }
+
+    const handleIncrement = (_item) => { 
+        order.map((item) => {
+          if(_item._id === item._id){
+              item.number++;
+          }
+            setOrderPostData(createOrderData(order, props.customerID))
+            setCheckList((<CheckList 
+                items={createOrderData(order, props.customerID)} 
+                handleIncrement={handleIncrement} 
+                handleDecrement={handleDecrement}
+                handleDelete={handleDelete}
+            />))
+        })
+    }
+
+    const handleDecrement = (_item) => {
+        order.map((item) => {
+          if(_item._id === item._id){
+            item.number--;
+            if(item.number === 0){
+                order.splice(order.indexOf(item), 1)
+            }
+            setOrderPostData(createOrderData(order, props.customerID))
+            setCheckList((<CheckList 
+                items={createOrderData(order, props.customerID)} 
+                handleIncrement={handleIncrement} 
+                handleDecrement={handleDecrement}
+                handleDelete={handleDelete}
+            />))
+          }  
+        })
+    }
+
+    const handleDelete = (_item) => {
+        order.map((item) => {
+          if(_item._id === item._id){
+            item.number = 0;
+            order.splice(order.indexOf(item), 1)
+            setOrderPostData(createOrderData(order, props.customerID))
+            setCheckList((<CheckList 
+                items={createOrderData(order, props.customerID)} 
+                handleIncrement={handleIncrement} 
+                handleDecrement={handleDecrement}
+                handleDelete={handleDelete}
+            />))
+          }  
+        })
     }
 
     // keep track of item in the bill
     const [order, setOrder] = useState([])
-
+    //setOrderPostData(createOrderData(order, props.customerID))
+    
     return (
+    <div>
     <Grid container>
         <Grid item xs>
             {props.items ? (
@@ -95,25 +154,37 @@ function ItemsList(props) {
 
         <Grid item xs={4} style={{display: checkList ? "" : "none", paddingTop: 34, marginRight: 24}}>
             {checkList}
-            <h1 align="left" ><b>Total: {orderPostData.total}</b></h1>            
             <div style={{display: "flex", "justify-content": "center", "align-items": "center"}}>
                 <Button 
                     variant="contained" 
                     color="secondary"
+                    onClick={() =>{ 
+                        setBill(<Bill items={order} billIsOpen={true} id={null}/>);
+                    }}
+                >
+                    Review 
+                </Button>
+                {bill}
+                <Button 
+                    variant="contained" 
+                    color="secondary"
                     onClick={()=>{
-                        axios.post('http://localhost:5000/orders/add', orderPostData)
+                        setConfirm(<Confirm items={orderPostData} confirmIsOpen={true}/>);
+                        /*axios.post('http://localhost:5000/orders/add', orderPostData)
                             .then(res => console.log(res));
                         setSelectedItems([])
                         setOrder([])
-                        setCheckList(null)
+                        setCheckList(null)*/
                     }}
                 >
                     Confirm
                 </Button>
+                {confirm}
             </div>
-        </Grid>
+        </Grid>    
     </Grid>
-    )
+    </div>
+    );
 }
 
 export default ItemsList
