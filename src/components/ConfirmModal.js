@@ -7,7 +7,8 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import Modal from '@material-ui/core/Modal';
 import Axios from 'axios' 
-
+import { unstable_batchUpdates } from 'react-dom'
+import Payment from './PaymentUI'
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -35,11 +36,12 @@ export default function ConfirmModal(props){
     const classes = useStyles();
     const [confirmIsOpen, setConfirmIsOpen] = useState(false);
     const [items, setItems] = useState([])
-
+    const [payment, setPayment] = useState([])
     useEffect(()=>{
         setConfirmIsOpen(props.confirmIsOpen)
         setItems(props.items)
     }, [props])
+
     return(
         <div>
         <Modal open={confirmIsOpen}>
@@ -50,15 +52,23 @@ export default function ConfirmModal(props){
                 </Typography>
             </CardContent>
             <CardActions>
-                <Button variant="contained" color="secondary" className={classes.button} onClick={()=>setConfirmIsOpen(false)}>
+                <Button variant="contained" color="secondary" className={classes.button} onClick={() =>{
+                    setPayment(<Payment items={props.items} paymentIsOpen={true}/>);
+                    setConfirmIsOpen(false);
+                }}
+                >
                 Yes
                 </Button>
-                <Button variant="contained" color="secondary" className={classes.button} onClick={()=>setConfirmIsOpen(false)}>
+                <Button variant="contained" color="secondary" className={classes.button} onClick={()=>{
+                    setConfirmIsOpen(false);
+                    setPayment(null);
+                }}>
                 No
                 </Button>
             </CardActions>
         </Card>
         </Modal>
+        {payment}
         </div>
     );
 }
