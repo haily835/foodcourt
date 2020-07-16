@@ -6,71 +6,133 @@ import ListItem from '@material-ui/core/ListItem'
 import ListItemText from '@material-ui/core/ListItemText'
 import Grid from '@material-ui/core/Grid'
 import Box from '@material-ui/core/Box'
-import Paper from '@material-ui/core/Paper';
-import { ViewState } from '@devexpress/dx-react-scheduler';
-import {
-  Scheduler,
-  MonthView,
-  Toolbar,
-  DateNavigator,
-  Appointments,
-  TodayButton,
-} from '@devexpress/dx-react-scheduler-material-ui';
+import Paper from '@material-ui/core/Paper'
+import Scheduler, { Resource } from 'devextreme-react/scheduler';
+
+import  {VoBox, VoButton, SchedForm} from'../vo_style.js'
+
+import 'devextreme/dist/css/dx.common.css';
+import 'devextreme/dist/css/dx.light.css';
+
+import {sched} from '../data/sched'
+import {employees} from '../data/employee'
+
+const currentDate = new Date();
+const views = ['day', 'week', 'workWeek', 'month'];
 
 
-import  {VoBox, VoButton} from'../vo_style.js'
-import {appointments} from '../data/sched'
-
-const currentDate = '2018-11-01';
-const schedulerData = [
-  { startDate: '2018-11-01T09:45', endDate: '2018-11-01T11:00', title: 'Meeting' },
-  { startDate: '2018-11-01T12:00', endDate: '2018-11-01T13:30', title: 'Go to a gym' },
-];
 
 
+function AppointmentTemplate(model) {
+  const data = model.Employees;
+  return (
+    <div> 
+      {
+        data.map((data) => {
+          return (
+            <p> {data.text} </p>
+          )
+        })
+      }
+    </div>
+  
+  ) 
+};
 
 export function Sched_manager()  {
-    const [cur, setCur]  = useState(0);
-  
-  
-    function set_id(id) {
-      setCur(id);
-    }
-
-
-    class Sched_display extends React.PureComponent {
+    class Sched_display extends React.Component {
       constructor(props) {
         super(props);
-    
-        this.state = {
-          data: appointments,
-        };
-      }
-      render() {
-        const { data } = this.state;
 
-        return (
-          <Paper>
-            <Scheduler
-              data={data}
-            >
-              <ViewState
-                defaultCurrentDate="2020-07-5"
-              />
-              <MonthView />
-              <Toolbar />
-              <DateNavigator />
-              <TodayButton />
-              <Appointments />
-            </Scheduler>
-          </Paper>
-        );
+        //this.getAppointmentTooltipTemplate = this.getAppointmentTooltipTemplate.bind(this);
+        this.onAppointmentFormOpening = this.onAppointmentFormOpening.bind(this);
       }
-    }
+
+      render() {
+        return (
+          <Scheduler
+            dataSource={sched}
+            views={views}
+            defaultCurrentView="month"
+            defaultCurrentDate={currentDate}
+            height={600}
+            firstDayOfWeek={1}
+            startDayHour={8}
+            endDayHour={18}
+            //appointmentRender={AppointmentTemplate}
+            // appointmentTooltipRender={this.getAppointmentTooltipTemplate}
+            // onContentReady={this.onContentReady}
+             onAppointmentFormOpening={this.onAppointmentFormOpening}
+          >
+         
+          </Scheduler> 
+        )
+      }
+    
+    
+
+    onAppointmentFormOpening(data) {
+      let form = data.form
+       // movieInfo = getMovieById(data.appointmentData.movieId) || {},
+       // startDate = sched.appointmentData.startDate;
   
+      form.option('items', [
+        // {
+        //   dataField: 'titleBox',
+        //   editorType: 'dxTextBox',
+        //   editorOptions:
+        //     {
+        //       width: '100%',
+              
+        //     }
+        // },
+        {
+          dataField: 'startTime',
+          editorType: 'dxDateBox', 
+          editorOptions: 
+            {
+            width: '100%',
+            type: 'time',
+            }
+        },
+        {
+          dataField: 'endTime',
+          editorType: 'dxDateBox',
+          editorOptions: 
+            {
+            width: '100%',
+            type: 'time',
+            }
+        },
+        {
+          label: {
+            text: 'Employees'
+          },
+          name: 'Employees',
+          dataField: 'Employees',
+          editorType: 'dxTagBox',
+          editorOptions: {
+            width: '100%',
+            items: employees,
+            displayExpr: 'text',
+            valueExpr: 'id',
+            searchEnabled: true,
+           // value: 
+          }
+          
+        }
+    ])
+    }
+  }
     return(
       <div className='Sched_UI'>
-        <Sched_display/>
+        <Grid container>
+          <Grid xs={2}></Grid>
+          <Grid xs = {8}>
+            <Sched_display/>
+          </Grid>  
+          <Grid xs={2}></Grid>
+        </Grid>
       </div>
     )
   };

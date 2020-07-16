@@ -127,9 +127,6 @@ export default function VendorUI(props) {
 
   return(
     <div>
-      <h1>Vendor UI</h1>
-      <h2>Hello {vendorInfo.name}!</h2>
-
 	<div className={classes.root}>
       <AppBar position="static">
         <Toolbar>
