@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -7,7 +7,7 @@ import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
-import axios from "axios"
+import axios from "axios";
 
 import DeleteIcon from "@material-ui/icons/Delete";
 import PlayCircleFilledWhiteRoundedIcon from "@material-ui/icons/PlayCircleFilledWhiteRounded";
@@ -15,7 +15,7 @@ import { Button, Snackbar, Container } from "@material-ui/core";
 
 import Backdrop from "@material-ui/core/Backdrop";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import MuiAlert from '@material-ui/lab/Alert';
+import MuiAlert from "@material-ui/lab/Alert";
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -36,34 +36,53 @@ export default function Order(props) {
     setOpen(true);
   };
   const handleClose = (event, reason) => {
-    if (reason === 'clickaway') {
+    if (reason === "clickaway") {
       return;
     }
 
     setOpen(false);
   };
 
-  const [details, setDetails] = useState(null)
+  const [details, setDetails] = useState(null);
 
   useEffect(() => {
-    let details = () => props.order.items.map(item => {
-      return <li>{item.name}: {item.number}</li>
-    })
-    setDetails(details)
-  }, [])
+    let details = () =>
+      props.order.items.map((item) => {
+        return (
+          <li>
+            {item.name}: {item.number}
+          </li>
+        );
+      });
+    setDetails(details);
+  }, []);
 
   // change the status of an order to ready to deliver
   const handleFinish = (orderID) => {
-    axios.post('http://localhost:5000/orders/' + orderID + "/" + "Ready", )
-      .then(res => console.log(res))
-  }
+    axios
+      .post("http://localhost:5000/orders/" + orderID + "/" + "Ready")
+      .then((res) => console.log(res));
+  };
 
+  // change the status of an order to denied
+  const handleDeny = (orderID) => {
+    axios
+      .post("http://localhost:5000/orders/" + orderID + "/" + "Denied")
+      .then((res) => console.log(res));
+  };
+
+  //alert
+  const alert = () => {};
 
   return (
     <Container>
-      <h1 style={{"marginBottom": "auto", "color": "#0356fc", "fontWeight": "bold"}}>Order ID: {props.order._id}</h1>
+      <h1
+        style={{ marginBottom: "auto", color: "#0356fc", fontWeight: "bold" }}
+      >
+        Order ID: {props.order._id}
+      </h1>
       <TableContainer component={Paper}>
-        <Table className={classes.table} aria-label="caption table" >
+        <Table className={classes.table} aria-label="caption table">
           <TableHead>
             <TableRow>
               <TableCell align="right">Status</TableCell>
@@ -74,20 +93,24 @@ export default function Order(props) {
           </TableHead>
           <TableBody>
             <TableRow>
-              <TableCell 
+              <TableCell
                 align="right"
-                style={{"color": "#fc7303", "fontSize":"20px"}}
+                style={{ color: "#fc7303", fontSize: "20px" }}
               >
                 {props.order.status}
               </TableCell>
-              <TableCell align="right"><ul>{details}</ul></TableCell>
+              <TableCell align="right">
+                <ul>{details}</ul>
+              </TableCell>
               <TableCell align="right">{props.order.customerID}</TableCell>
               <TableCell align="right">
                 <Button>
-                  <PlayCircleFilledWhiteRoundedIcon onClick={() => handleFinish(props.order._id)}/>
+                  <PlayCircleFilledWhiteRoundedIcon
+                    onClick={() => handleFinish(props.order._id)}
+                  />
                 </Button>
                 <Button>
-                  <DeleteIcon />
+                  <DeleteIcon onClick={() => handleDeny(props.order._id)} />
                 </Button>
               </TableCell>
             </TableRow>
@@ -100,8 +123,16 @@ export default function Order(props) {
       </Backdrop>
 
       <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
-        <Alert onClose={handleClose} severity="success">
-          Finished!
+        <Alert
+          onClose={handleClose}
+          severity="success"
+          action={
+            <Button color="inherit" size="small">
+              UNDO
+            </Button>
+          }
+        >
+          Order is !
         </Alert>
       </Snackbar>
     </Container>
