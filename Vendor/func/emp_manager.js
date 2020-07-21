@@ -16,7 +16,7 @@ export function Emp_manager() {
     const empl_list = employees.map((employees) => {
       return (
       <VoButton fullWidth = {1} onClick ={() => set_id(employees.id)}>
-          {employees.name}
+          {employees.text}
       </VoButton>
       )
       }
@@ -32,11 +32,14 @@ export function Emp_manager() {
         return(
   
             <React.Fragment >
+
             <div padding = "10px">
-              <h4 align = "center">Hi  </h4>
-              <h5> Employee id  = {employees[cur-1].id}</h5>
-              <h5> Name: {employees[cur-1].name} </h5>  
-              <h5>Phone Number: {employees[cur-1].phone} </h5>
+              <h2 align = "center">Employee information  </h2>
+              <bl/>
+              <h4> Employee id  = {employees[cur-1].id}</h4>
+              <h4> Name: {employees[cur-1].text} </h4>  
+              <h4> Phone Number: {employees[cur-1].phone} </h4>
+              <h4> Email: {employees[cur-1].email}</h4>
             </div>
             </React.Fragment>
           )
@@ -57,7 +60,7 @@ export function Emp_manager() {
   
         </Grid>
         <Grid item xs = {4}>
-          <Box color = "inherit" border={1} paddingLeft={5}> 
+          <Box color = "inherit" border={1} paddingLeft={5} height={1}> 
           <Emp_info />
           </Box>
         </Grid>

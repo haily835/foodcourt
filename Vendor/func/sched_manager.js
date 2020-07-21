@@ -14,44 +14,39 @@ import  {VoBox, VoButton, SchedForm} from'../vo_style.js'
 import 'devextreme/dist/css/dx.common.css';
 import 'devextreme/dist/css/dx.light.css';
 
-import {sched} from '../data/sched'
+import {data} from '../data/sched'
 import {employees} from '../data/employee'
+import SchedPanel from '../data/SchedPanel'
 
 const currentDate = new Date();
 const views = ['day', 'week', 'workWeek', 'month'];
 
-
-
-
-function AppointmentTemplate(model) {
-  const data = model.Employees;
+const renderAppointment = (model) => {
   return (
-    <div> 
-      {
-        data.map((data) => {
-          return (
-            <p> {data.text} </p>
-          )
-        })
-      }
-    </div>
-  
-  ) 
-};
+      <React.Fragment>
+          <i>{model.appointmentData.Employees[0]}</i>
+          {(model.appointmentData.Employees.length >1) &&
+            <i>,{model.appointmentData.Employees[1]}</i>
+          }
+          {(model.appointmentData.Employees.lenght >2) &&
+            <i>,...</i>
+          }
+      </React.Fragment>
+  );
+}
+
 
 export function Sched_manager()  {
     class Sched_display extends React.Component {
       constructor(props) {
         super(props);
-
-        //this.getAppointmentTooltipTemplate = this.getAppointmentTooltipTemplate.bind(this);
         this.onAppointmentFormOpening = this.onAppointmentFormOpening.bind(this);
       }
 
       render() {
         return (
           <Scheduler
-            dataSource={sched}
+            dataSource={data}
             views={views}
             defaultCurrentView="month"
             defaultCurrentDate={currentDate}
@@ -59,22 +54,23 @@ export function Sched_manager()  {
             firstDayOfWeek={1}
             startDayHour={8}
             endDayHour={18}
-            //appointmentRender={AppointmentTemplate}
-            // appointmentTooltipRender={this.getAppointmentTooltipTemplate}
-            // onContentReady={this.onContentReady}
+            appointmentRender= {renderAppointment}
+            onContentReady={this.onContentReady}
              onAppointmentFormOpening={this.onAppointmentFormOpening}
           >
-         
+          <Resource
+            dataSource={data}
+            fieldExpr="Employees"
+          />
           </Scheduler> 
         )
-      }
+      };
     
     
 
     onAppointmentFormOpening(data) {
-      let form = data.form
-       // movieInfo = getMovieById(data.appointmentData.movieId) || {},
-       // startDate = sched.appointmentData.startDate;
+      let form = data.form;
+
   
       form.option('items', [
         // {
@@ -87,7 +83,10 @@ export function Sched_manager()  {
         //     }
         // },
         {
-          dataField: 'startTime',
+          label:{
+            text:"Start time"
+          },
+          dataField: 'startDate',
           editorType: 'dxDateBox', 
           editorOptions: 
             {
@@ -96,7 +95,10 @@ export function Sched_manager()  {
             }
         },
         {
-          dataField: 'endTime',
+          label:{
+            text:"End time"
+          },
+          dataField: 'endDate',
           editorType: 'dxDateBox',
           editorOptions: 
             {
@@ -108,16 +110,14 @@ export function Sched_manager()  {
           label: {
             text: 'Employees'
           },
-          name: 'Employees',
           dataField: 'Employees',
           editorType: 'dxTagBox',
           editorOptions: {
             width: '100%',
-            items: employees,
+            items:employees,
             displayExpr: 'text',
-            valueExpr: 'id',
+            valueExpr: 'text',
             searchEnabled: true,
-           // value: 
           }
           
         }

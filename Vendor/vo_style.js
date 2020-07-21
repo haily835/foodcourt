@@ -14,10 +14,12 @@ import {
 } from '@devexpress/dx-react-scheduler-material-ui'
 
 
+
 export const VoButton = styled(Button)({
   background: 'white',
-  border: 1,
-  borderRadius: 3,
+  border: '1px solid',
+  borderColor: 'black',
+  variant:'outlined',
   color: 'black',
   height: 48,
   padding: '0 30px',

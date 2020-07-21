@@ -7,21 +7,9 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
-import { NavLink, Switch, Route, useLocation } from 'react-router-dom';
+import { NavLink, Switch, Route } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
-import Box from '@material-ui/core/Box';
-import Paper from '@material-ui/core/Paper';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import { borders } from '@material-ui/system';
-import ReactDOM from 'react-dom';
-import { ViewState } from '@devexpress/dx-react-scheduler';
-import {
-  Scheduler,
-  DayView,
-  Appointments,
-} from '@devexpress/dx-react-scheduler-material-ui';
+
 
 
 
@@ -29,7 +17,6 @@ import Emp_manager from './func/emp_manager'
 import Rp_manager from './func/rp_manager'
 import Sched_manager from './func/sched_manager'
 import {NavButton} from './vo_style'
-import { ButtonGroup } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -59,6 +46,7 @@ const Vo_main =  () => (
     <Route exact path='/user/vendor/:id' component={Rp_UI}></Route>
     <Route exact path='/user/vendor/:id/2' component={Emp_UI}></Route>
     <Route exact path='/user/vendor/:id/3' component={Sched_UI}></Route>
+    <Route exact path='/foodcourt' ></Route>
   </Switch>
 );
 
@@ -130,12 +118,12 @@ export default function VendorUI(props) {
 	<div className={classes.root}>
       <AppBar position="static">
         <Toolbar>
-          <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
-            <MenuIcon />
-          </IconButton>
             <Drop />
+            <NavLink  to= '/foodcourt' >
+               <NavButton fullWidth ="1"> Logout
+                </NavButton>
+            </NavLink>
           
-          <Button color="inherit">Login</Button>
         </Toolbar>
       </AppBar>
 
