@@ -20,7 +20,6 @@ import { Typography } from "@material-ui/core";
 
 import ListFood from "../Cook/ListFood.js";
 import ItemsList from "../itemList/ItemList.component.js";
-import Navbar from "./Navbar.js";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -40,25 +39,46 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function CookUI(props) {
+export default function Navbar(props) {
   // this contain use information: name, password, email, role
   const classes = useStyles();
-  const [cookInfo, setInfo] = React.useState({});
-
-  useEffect(() => {
-    axios
-      .get("http://localhost:5000/users/" + props.match.params.id)
-      .then((res) => {
-        setInfo(res.data);
-      })
-      .catch(function (err) {
-        console.log(err);
-      });
-  }, []);
+  const [cookInfo, setInfo] = useState([]);
 
   return (
-    <Navbar name={cookInfo.username}/>
+    <div>
+      <div className={classes.root}>
+        <AppBar cookInfo={cookInfo} position="relative">
+          <Toolbar>
+            <IconButton
+              edge="start"
+              className={classes.menuButton}
+              color="inherit"
+              aria-label="menu"
+            >
+              <MenuIcon />
+            </IconButton>
+            <Typography
+              // component="h1"
+              variant="h6"
+              color="inherit"
+              noWrap
+              className={classes.title}
+            >
+              {"Hello " + props.name}
+            </Typography>
+
+            <IconButton color="inherit">
+              <Button
+                variant="contained"
+                onClick={() => (window.location = "/foodcourt")}
+              >
+                Log Out
+              </Button>
+            </IconButton>
+          </Toolbar>
+        </AppBar>
+      </div>
+      <ListFood />
+    </div>
   );
 }
-
-//ReactDOM.render(<CookUI />, document.querySelector("#app"));
