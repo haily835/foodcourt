@@ -16,7 +16,7 @@ import 'devextreme/dist/css/dx.light.css';
 
 import {data} from '../data/sched'
 import {employees} from '../data/employee'
-import SchedPanel from '../data/SchedPanel'
+
 
 const currentDate = new Date();
 const views = ['day', 'week', 'workWeek', 'month'];
