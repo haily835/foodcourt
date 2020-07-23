@@ -6,6 +6,7 @@ import ListItem from '@material-ui/core/ListItem'
 import ListItemText from '@material-ui/core/ListItemText'
 import Grid from '@material-ui/core/Grid'
 import Box from '@material-ui/core/Box'
+import Container from '@material-ui/core/Container'
 
 import  {VoBox, VoButton} from'../vo_style.js'
 import rp_data from '../data/report.json'
@@ -26,7 +27,7 @@ export function Rp_manager() {
     
     const Rp_list = rp_data.map((rp_data) => {
       return (
-        <VoButton fullWidth = {1} onClick ={() => set_id(rp_data.id -1)}>
+        <VoButton fullWidth = {1} onClick ={() => set_id(rp_data.id -1)} height="25%">
         {rp_data.name}
         </VoButton>
       )
@@ -36,13 +37,13 @@ export function Rp_manager() {
   
       render() {
         let image;
-        if(cur == 0) {image = <img src= {rp_1}/>} else
-        if(cur == 1) {image = <img src= {rp_2}/>} else
-        if(cur == 2) {image = <img src= {rp_3}/>}
+        if(cur == 0) {image = <img src= {rp_1} width= "100%" height='380px' />} else
+        if(cur == 1) {image = <img src= {rp_2} width= "100%" height='380px' />} else
+        if(cur == 2) {image = <img src= {rp_3} width= "100%" height='380px' />}
         return(
 
             <React.Fragment>
-              <h4>{rp_data[cur].link}</h4>
+             {/* <h4>{rp_data[cur].link}</h4> */}
               {image}
             </React.Fragment>
           )
@@ -54,15 +55,24 @@ export function Rp_manager() {
       <div className='home'>
         <Grid container spacing = {3}>
             <Grid item xs ={2}> </Grid>
-            <Grid item xs = {6}>
-              <Box color = "inherit" border={1}> <Rp_display /></Box>
+            
+            <Grid container item xs={8}  spacing = {1}direction="row" justify="center" >
+            {/* <div style={{backgroundColor: "blue"}}> */}
+              <Grid item xs = {8}>
+                <Box color = "inherit" border={1} height= {1}> <Rp_display /></Box>
+              </Grid>
+              <Grid item xs = {4}>
+              <VoBox color = "inherit" border={1} height= {1}>
+                  <h4 align="center"> Select Report</h4>
+                  <Box height = "75%">
+                  {Rp_list}
+                  </Box>
+              </VoBox>
+
+              </Grid>
+            {/* </div> */}
             </Grid>
-            <Grid item xs = {2}>
-            <VoBox color = "inherit" border={1}>0
-                <h4 align="center"> Select Report</h4>
-                {Rp_list}
-            </VoBox>
-            </Grid>
+
             <Grid item xs ={2}> </Grid>
         </Grid>
     </div>

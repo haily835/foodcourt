@@ -7,21 +7,16 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
-import { NavLink, Switch, Route, useLocation } from 'react-router-dom';
+import { NavLink, Switch, Route } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
-import Box from '@material-ui/core/Box';
-import Paper from '@material-ui/core/Paper';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import { borders } from '@material-ui/system';
-import ReactDOM from 'react-dom';
+
 
 
 
 import Emp_manager from './func/emp_manager'
 import Rp_manager from './func/rp_manager'
-import { ButtonGroup } from "@material-ui/core";
+import Sched_manager from './func/sched_manager'
+import {NavButton} from './vo_style'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -48,9 +43,10 @@ const useStyles = makeStyles((theme) => ({
 //
 const Vo_main =  () => (
   <Switch>
-    <Route exact path='/user/vendor/:id' component={Home}></Route>
-    <Route exact path='/user/vendor/:id/2' component={About}></Route>
-    <Route exact path='/user/vendor/:id/3' component={Contact}></Route>
+    <Route exact path='/user/vendor/:id' component={Rp_UI}></Route>
+    <Route exact path='/user/vendor/:id/2' component={Emp_UI}></Route>
+    <Route exact path='/user/vendor/:id/3' component={Sched_UI}></Route>
+    <Route exact path='/foodcourt' ></Route>
   </Switch>
 );
 
@@ -60,43 +56,40 @@ function refreshPage() {
 }
 
 
-const Home = () => (
+const Rp_UI = () => (
   <Rp_manager/>
 );
 
 
 
-const About = () => (
+const Emp_UI = () => (
   <Emp_manager/>
 );
 
 
 
-const Contact = () => (
-  <div className='contact'>
-    <h1>Contact Me</h1>
-    <p>You can reach me via email: <strong>hello@example.com</strong></p>
-  </div>
+const Sched_UI= () => (
+  <Sched_manager/>
 );
 
 const Drop = () => (
     <Grid container >
       <Grid item xs>
       <NavLink exact to= '/user/vendor/:id' >
-        <Button fullWidth ="1"> 1
-        </Button>
+        <NavButton fullWidth ="1"> View Reports 
+        </NavButton>
       </NavLink>
       </Grid>
       <Grid item xs>
       <NavLink exact to= '/user/vendor/:id/2' >
-        <Button fullWidth ="1"> 2
-        </Button>
+        <NavButton fullWidth ="1"> View Employees
+        </NavButton>
       </NavLink>
       </Grid>
       <Grid item xs>
       <NavLink  to= '/user/vendor/:id/3' >
-        <Button fullWidth ="1"> 3
-        </Button>
+        <NavButton fullWidth ="1"> View Schedules
+        </NavButton>
       </NavLink>
       </Grid>
   </Grid> 
@@ -122,18 +115,15 @@ export default function VendorUI(props) {
 
   return(
     <div>
-      <h1>Vendor UI</h1>
-      <h2>Hello {vendorInfo.name}!</h2>
-
 	<div className={classes.root}>
       <AppBar position="static">
         <Toolbar>
-          <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
-            <MenuIcon />
-          </IconButton>
             <Drop />
+            <NavLink  to= '/foodcourt' >
+               <NavButton fullWidth ="1"> Logout
+                </NavButton>
+            </NavLink>
           
-          <Button color="inherit">Login</Button>
         </Toolbar>
       </AppBar>
 

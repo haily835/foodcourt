@@ -7,16 +7,16 @@ import ListItemText from '@material-ui/core/ListItemText'
 import Grid from '@material-ui/core/Grid'
 import Box from '@material-ui/core/Box'
 
-import emp_data from '../data/employee.json'
+import {employees} from '../data/employee.js'
 import  {VoBox, VoButton} from'../vo_style.js'
 
 export function Emp_manager() {
     const [cur, setCur]  = useState(1);
   
-    const empl_list = emp_data.map((emp_data) => {
+    const empl_list = employees.map((employees) => {
       return (
-      <VoButton fullWidth = {1} onClick ={() => set_id(emp_data.id)}>
-          {emp_data.name}
+      <VoButton fullWidth = {1} onClick ={() => set_id(employees.id)}>
+          {employees.text}
       </VoButton>
       )
       }
@@ -32,10 +32,15 @@ export function Emp_manager() {
         return(
   
             <React.Fragment >
-              <h4>Hi  </h4>
-              <h4> id  = {emp_data[cur-1].id}</h4>
-              <h5>:) {emp_data[cur-1].name} </h5>  
-  
+
+            <div padding = "10px">
+              <h2 align = "center">Employee information  </h2>
+              <bl/>
+              <h4> Employee id: {employees[cur-1].id}</h4>
+              <h4> Name: {employees[cur-1].text} </h4>  
+              <h4> Phone Number: {employees[cur-1].phone} </h4>
+              <h4> Email: {employees[cur-1].email}</h4>
+            </div>
             </React.Fragment>
           )
         }
@@ -43,10 +48,10 @@ export function Emp_manager() {
   
   
     return(
-      <div className='about'>
+      <div className='Emp_UI'>
       <Grid container spacing = {3}>
         <Grid item xs ={2}> </Grid>
-        <Grid item xs = {3}>
+        <Grid item xs = {4}>
   
           <List >
             {empl_list}
@@ -54,8 +59,8 @@ export function Emp_manager() {
   
   
         </Grid>
-        <Grid item xs = {5}>
-          <Box color = "inherit" border={1}> 
+        <Grid item xs = {4}>
+          <Box color = "inherit" border={1} paddingLeft={5} height={1}> 
           <Emp_info />
           </Box>
         </Grid>
