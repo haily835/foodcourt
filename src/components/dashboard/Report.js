@@ -1,20 +1,20 @@
-import React, {useState, useEffect} from 'react';
-import clsx from 'clsx';
-import { makeStyles } from '@material-ui/core/styles';
-import Container from '@material-ui/core/Container';
-import Grid from '@material-ui/core/Grid';
-import Paper from '@material-ui/core/Paper';
-import Chart from './Chart';
-import Deposits from './Deposits';
-import Orders from './Orders';
-import ItemRatingChart from './ItemRatingChart'
-import ItemMenuChart from './ItemMenuChart'
-import axios from 'axios'
-import { Button } from '@material-ui/core';
-import { saveAs } from 'file-saver';
+import React, { useState, useEffect } from "react";
+import clsx from "clsx";
+import { makeStyles } from "@material-ui/core/styles";
+import Container from "@material-ui/core/Container";
+import Grid from "@material-ui/core/Grid";
+import Paper from "@material-ui/core/Paper";
+import Chart from "./Chart";
+import Deposits from "./Deposits";
+import Orders from "./Orders";
+import ItemRatingChart from "./ItemRatingChart";
+import ItemMenuChart from "./ItemMenuChart";
+import axios from "axios";
+import { Button } from "@material-ui/core";
+import { saveAs } from "file-saver";
 const useStyles = makeStyles((theme) => ({
   root: {
-    display: 'flex',
+    display: "flex",
   },
   container: {
     paddingTop: theme.spacing(4),
@@ -22,55 +22,62 @@ const useStyles = makeStyles((theme) => ({
   },
   paper: {
     padding: theme.spacing(2),
-    display: 'flex',
-    overflow: 'auto',
-    flexDirection: 'column',
+    display: "flex",
+    overflow: "auto",
+    flexDirection: "column",
   },
   fixedHeight: {
     height: 240,
   },
 }));
 
-
 export default function Report() {
-
   // styling
   const classes = useStyles();
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
-  const itemChartStyle = clsx(classes.itemChart)
+  const itemChartStyle = clsx(classes.itemChart);
   // items data
-  const [items, setItems] = useState([])
-  const [currentItem, setCurrentItem] = useState()
-  const [currItemId, setCurrItemId] = useState("")
+  const [items, setItems] = useState([]);
+  const [currentItem, setCurrentItem] = useState();
+  const [currItemId, setCurrItemId] = useState("");
   const abortController = new AbortController();
-  const [isReportUnMount, setReportUnMount] = useState(false)
+  const [isReportUnMount, setReportUnMount] = useState(false);
   // state of the report to pdf
-  const [sevenDaysPeriod, setSevenDaysPeriod] = useState([])
-  const [ratingData, setRatingData] = useState({})
+  const [sevenDaysPeriod, setSevenDaysPeriod] = useState([]);
+  const [ratingData, setRatingData] = useState({});
   useEffect(() => {
     const loadData = async () => {
-      const result = await axios.get('http://localhost:5000/items/', { signal: abortController.signal })
-      if(!isReportUnMount) {
+      const result = await axios.get("http://localhost:5000/items/", {
+        signal: abortController.signal,
+      });
+      if (!isReportUnMount) {
         setItems(result.data);
-        setCurrentItem(result.data[0])
+        setCurrentItem(result.data[0]);
       }
-    }
-    loadData()
+    };
+    loadData();
 
-    // clean up 
-    return () => {setReportUnMount(true)}
-  }
-  , [])
+    // clean up
+    return () => {
+      setReportUnMount(true);
+    };
+  }, []);
 
   const createAndDownloadPdf = () => {
-    axios.post('http://localhost:5000/create-pdf', {"sevenDaysPeriod": sevenDaysPeriod, "items": items})
-      .then(() => axios.get('http://localhost:5000/fetch-pdf', { responseType: 'blob' }))
-      .then((res) => {
-        const pdfBlob = new Blob([res.data], { type: 'application/pdf' });
-
-        saveAs(pdfBlob, 'report.pdf');
+    axios
+      .post("http://localhost:5000/create-pdf", {
+        sevenDaysPeriod: sevenDaysPeriod,
+        items: items,
       })
-  }
+      .then(() =>
+        axios.get("http://localhost:5000/fetch-pdf", { responseType: "blob" })
+      )
+      .then((res) => {
+        const pdfBlob = new Blob([res.data], { type: "application/pdf" });
+
+        saveAs(pdfBlob, "report.pdf");
+      });
+  };
 
   return (
     <Container maxWidth="lg" className={classes.container}>
@@ -78,7 +85,7 @@ export default function Report() {
         {/* Chart */}
         <Grid item xs={12} md={8} lg={9}>
           <Paper className={fixedHeightPaper}>
-            <Chart handlePrint={setSevenDaysPeriod}/>
+            <Chart handlePrint={setSevenDaysPeriod} />
           </Paper>
         </Grid>
         {/* Recent Deposits */}
@@ -90,26 +97,28 @@ export default function Report() {
         {/* Item chosing */}
         <Grid item xs={12} md={4} lg={3}>
           <Paper className={fixedHeightPaper}>
-            <ItemMenuChart items={items} chooseItemHandle={setCurrentItem}/>
+            <ItemMenuChart items={items} chooseItemHandle={setCurrentItem} />
           </Paper>
         </Grid>
         {/* Item rating */}
         <Grid item xs={12} md={8} lg={9}>
           <Paper className={fixedHeightPaper}>
-            <ItemRatingChart item={currentItem}/>
+            <ItemRatingChart item={currentItem} />
           </Paper>
         </Grid>
         {/* Export Pdf */}
         <Grid item xs={12}>
-          <Button variant="outlined" onClick={createAndDownloadPdf}>Download Pdf</Button>
+          <Button variant="outlined" onClick={createAndDownloadPdf}>
+            Download Pdf
+          </Button>
         </Grid>
         {/* Recent Orders */}
-        <Grid item xs={12}>
+        {/* <Grid item xs={12}>
           <Paper className={classes.paper}>
             <Orders />
           </Paper>
-        </Grid>
+        </Grid> */}
       </Grid>
     </Container>
-  )
+  );
 }
