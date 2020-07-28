@@ -1,17 +1,7 @@
 import Box from '@material-ui/core/Box'
 import { makeStyle, styled } from '@material-ui/core/styles'
 import Button from '@material-ui/core/Button'
-import {
-  Scheduler,
-  MonthView,
-  Toolbar,
-  DateNavigator,
-  Appointments,
-  TodayButton,
-  AppointmentForm,
-  AppointmentTooltip,
-  ConfirmationDialog,
-} from '@devexpress/dx-react-scheduler-material-ui'
+
 
 
 
@@ -39,6 +29,3 @@ export const NavButton = styled(Button)({
   borderColor:'white',
 })
 
-export const SchedForm = styled(AppointmentForm)({
-  isRecurrence: false,
-})
