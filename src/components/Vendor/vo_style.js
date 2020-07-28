@@ -13,6 +13,7 @@ export const VoButton = styled(Button)({
   color: 'black',
   height: 48,
   padding: '0 30px',
+  p: 5,
 
 })
 

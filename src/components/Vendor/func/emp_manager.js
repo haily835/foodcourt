@@ -60,7 +60,7 @@ export function Emp_manager() {
   
         </Grid>
         <Grid item xs = {4}>
-          <Box color = "inherit" border={1} paddingLeft={5} height={1}> 
+          <Box bgcolor="white" color = "inherit" border={1} paddingLeft={5} height={1}> 
           <Emp_info />
           </Box>
         </Grid>

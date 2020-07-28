@@ -63,7 +63,7 @@ export function Rp_manager() {
               </Grid>
               <Grid item xs = {4}>
               <VoBox color = "inherit" border={1} height= {1}>
-                  <h4 align="center"> Select Report</h4>
+                  <Box p={2} color="inherit" textAlign="center" fontWeight="fontWeightBold"> Select Report</Box>
                   <Box height = "75%">
                   {Rp_list}
                   </Box>
