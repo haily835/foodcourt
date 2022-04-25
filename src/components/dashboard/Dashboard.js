@@ -152,7 +152,7 @@ export default function Dashboard(props) {
             <PeopleIcon />
           </ListItemIcon>
 
-          <ListItemText primary="Add Staff" />
+          <ListItemText primary="Customer mangement" />
         </ListItem>
       </RouterLink>
     </>
