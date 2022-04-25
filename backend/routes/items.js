@@ -20,7 +20,7 @@ router.route('/add').post((req, res) => {
     fourStar: 0,
     fiveStar: 0
   }
-  const newItem = new Item({imgSrc, name, price, description, rating});
+  const newItem = new Item({imgSrc: imgSrc || "https://www.lg.com/lg5-common-gp/images/common/product-default-list-350.jpg", name, price, description, rating});
 
   newItem.save()
     .then(() => res.json('Item added!'))

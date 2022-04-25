@@ -10,6 +10,7 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import FormControl from '@material-ui/core/FormControl';
 import TextField from '@material-ui/core/TextField';
 import SearchIcon from '@material-ui/icons/Search';
+import { AddCircleOutline } from "@material-ui/icons";
 var ReactCSSTransitionGroup = require('react-addons-css-transition-group');
 
 function Persona(props) {
@@ -115,6 +116,10 @@ function StaffList() {
     setDisplayItems(items);
   }, [data])
 
+  const handleClose = () => {
+	setIsEdit(prev => !prev);
+	setRefresh(prev => !prev);
+  }
   return(
     <Grid container className="wrapper">
 			<Grid item xs={12} sm={isEdit ? 8 : 12}>
@@ -129,7 +134,7 @@ function StaffList() {
 								<div className="category">
 									{" "}Cook:
 									<span className="focus">
-										{/*count the number of cook in data*/}
+										{data.filter(staff => staff.role === 'cook').length}
 									</span>
 								</div>
 								<div className="category">
@@ -139,9 +144,10 @@ function StaffList() {
 									</span>
 								</div>
 								<div className="category">
-									{" "}Waiter:
+									{" "}Manager:
 									<span className="focus">
 										{/*count the number of cook in data*/}
+										{data.filter(staff => staff.role === 'manager').length}
 									</span>
 								</div>
 							</Grid>
@@ -153,7 +159,16 @@ function StaffList() {
 											<SearchIcon />
 										</InputAdornment>
 									}
+									endAdornment={
+										<InputAdornment position="end">
+											<AddCircleOutline onClick={() =>{
+												 setIsEdit(true);
+												 setCurrentStaff(null)
+											}}/>
+										</InputAdornment>
+									}
 									onChange = {handleChange}
+
 								/>
 							</Grid>
 							<Grid item xs>
@@ -178,9 +193,9 @@ function StaffList() {
 					</ReactCSSTransitionGroup>
 				</div>
 			</Grid>
-			<Grid item sm={4} style={{display: isEdit ? "" : "none"}}>
-        <ManageStaff info={currentStaff} handleClose={setIsEdit}/>
-      </Grid>
+			{isEdit && <Grid item sm={4} style={{display: isEdit ? "" : "none"}}>
+        <ManageStaff info={currentStaff} handleClose={handleClose}/>
+      </Grid>}
     </Grid>
   )
 }

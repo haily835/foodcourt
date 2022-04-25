@@ -67,7 +67,7 @@ export default function CustomerAppBar(props) {
 
   return (
     <div>
-      <AppBar position="static">
+      <AppBar color='lemonchiffon' position="static">
         <Toolbar>
           <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
             <MenuIcon />

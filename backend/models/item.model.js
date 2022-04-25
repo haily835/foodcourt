@@ -5,12 +5,11 @@ const Schema = mongoose.Schema;
 const itemSchema = new Schema({
   imgSrc: {
     type: String,
-    required: true
+    required: true,
   },
   name: {
     type: String,
     required: true,
-    unique: true,
     trim: true
   },
   price: {
@@ -19,7 +18,7 @@ const itemSchema = new Schema({
   },
   description: {
     type: String,
-    required: true
+    default: "https://www.lg.com/lg5-common-gp/images/common/product-default-list-350.jpg"
   },
   rating: {
     oneStar: {type: Number},

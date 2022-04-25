@@ -45,6 +45,7 @@ export default function SimpleTable() {
           <Table className={classes.table} aria-label="simple table">
             <TableHead>
               <TableRow>
+                <TableCell align="left">Image</TableCell>
                 <TableCell align="left">Name</TableCell>
                 <TableCell align="left">Price</TableCell>
                 <TableCell>Action</TableCell>
@@ -53,6 +54,9 @@ export default function SimpleTable() {
             <TableBody>
               {items.map((item) => (
                 <TableRow key={item.name}>
+                  <TableCell  align="left">
+                    <img src={item.imgSrc} width={50} height={50}/>
+                  </TableCell>
                   <TableCell align="left">{item.name}</TableCell>
                   <TableCell align="left">{item.price}</TableCell>
                   <TableCell component="th" scope="row">

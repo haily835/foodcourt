@@ -120,7 +120,7 @@ export default function NewItemForm() {
         className={classes.submit}
         onClick={()=>{
             axios.post('http://localhost:5000/items/add', {"imgSrc": itemSrc, "name": itemName, "price": itemPrice, "description": itemDescription})
-          window.location = window.location
+          // window.location = window.location
         }}
       >
         Submit
