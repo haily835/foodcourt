@@ -1,5 +1,6 @@
 const router = require('express').Router();
 let Staff = require('../models/staff.model');
+let User = require('../models/user.model');
 
 router.route('/').get((req, res) => {
   Staff.find()
@@ -16,17 +17,22 @@ router.route('/add').post((req, res) => {
   const phoneNumber = req.body.phoneNumber;
   const gender = req.body.gender;
   const role = req.body.role;
-  const imgUrl = req.body.imgUrl
+  const imgUrl = req.body.imgUrl;
+  const password = req.body.password;
   const newStaff = new Staff({name, email, idNumber, age, phoneNumber, gender, role, imgUrl});
-
+  const newUser = new User({username: name, email, password, role});
+  newUser.save()
+    .then(() => res.json('User added!'))
+    .catch(err => console.log(err));
   newStaff.save()
     .then(() => res.json('Staff added!'))
-    .catch(err => res.status(400).json('Error: ' + err));
+    .catch(err => console.log(err));
 });
 
 // update by id 
 router.route('/:id').post((req, res) => {
-  Staff.findById(req.params.id)
+  try {
+    Staff.findById(req.params.id)
     .then(res => {
       res.name = req.body.name
       res.email = req.body.email
@@ -38,8 +44,12 @@ router.route('/:id').post((req, res) => {
       res.imgUrl = req.body.imgUrl
       res.save()
         .then(() => res.json('Staff modified'))
-        .catch(err => res.status(400).json('Error: ' + err));
-    })
+        .catch(err => console.log(err));
+  })
+  } catch (err) {
+    console.log(err)
+  }
+  
 })
 
 router.route('/delete/:id').delete((req, res) => {

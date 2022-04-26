@@ -32,9 +32,10 @@ export default function ManagerStaff(props) {
   const [idNumber, setIdNumber] = useState("")
   const [age, setAge] = useState(0)
   const [imgUrl,setImgUrl] = useState("")
-  const [gender, setGender] = useState("")
+  const [gender, setGender] = useState("female")
   const [phoneNumber, setPhoneNumber] = useState("")
-  const [role, setRole] = useState("")
+  const [password, setPassword] = useState("");
+  const [role, setRole] = useState("cook")
 
   useEffect(() => {
     if(props.info) {
@@ -93,11 +94,24 @@ export default function ManagerStaff(props) {
                     }}
                   />
                 </Grid>
+                {!props.info && <Grid item xs={12}>
+                  <TextField
+                    name="password"
+                    variant="outlined"
+                    required
+                    fullWidth
+                    id="password"
+                    label="Password account"
+                    value={password}
+                    onChange={(e) => {
+                      setPassword(e.target.value)
+                    }}
+                  />
+                </Grid>}
                 <Grid item xs={12}>
                   <TextField
                     name="imgUrl"
                     variant="outlined"
-                    required
                     fullWidth
                     id="imgUrl"
                     label="Img Url"
@@ -111,7 +125,6 @@ export default function ManagerStaff(props) {
                   <TextField
                     name="idNumber"
                     variant="outlined"
-                    required
                     fullWidth
                     value={idNumber}
                     id="idNumber"
@@ -124,21 +137,21 @@ export default function ManagerStaff(props) {
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   <FormControl>
-                    <Input
+                    <TextField
                       inputProps={{ min: 18 }}
-                      required
                       name="age"
                       id="age"
+                      variant="outlined"
                       value={age}
                       type="number"
                       placeholder="Age"
-                      color="primary"
+                      label="Age"
                       onChange={(e) => {
                         setAge(e.target.value)
                         setIsChange(true)
                       }}
                     >
-                    </Input>
+                    </TextField>
                   </FormControl>
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -177,6 +190,7 @@ export default function ManagerStaff(props) {
                     name="role"
                     variant="outlined"
                     required
+                    select
                     fullWidth
                     id="role"
                     value={role}
@@ -184,8 +198,10 @@ export default function ManagerStaff(props) {
                     onChange={(e) => {
                       setRole(e.target.value)
                       setIsChange(true)
-                    }}
-                  />
+                    }}>
+                      <option key={"cook"} value={"cook"}>Cook</option>
+                      <option key={"manager"} value={"manager"}>Manager</option>
+                    </TextField>
                 </Grid>
               </Grid>
               <div className={classes.root} style={{"display": "flex", "align-items": "center", "justify-content": "center"}}>
@@ -202,25 +218,29 @@ export default function ManagerStaff(props) {
                       "age": age,
                       "phoneNumber": phoneNumber,
                       "gender": gender,
-                      "role": role
+                      "role": role,
+                      "password": password,
                     }
 
                     if(props.info) {
                       axios.post('http://localhost:5000/staff/' + props.info._id, staff)
                         .then(res => console.log(res.data))
-                      props.handleClose(prev => !prev)
+                        
+                      
                     } else {
                       axios.post('http://localhost:5000/staff/add', staff)
-                        .then(res => alert(res.data))
-                        setName("")
+                        .then(res => console.log(res.data))
+                    }
+                    // window.location = window.location
+                    setName("")
                         setEmail("")
                         setIdNumber("")
+                        setPassword("")
                         setAge(0)
                         setGender("")
                         setPhoneNumber("")
                         setRole("")
                         setImgUrl("")
-                    }
                   }}
                 >
                   {props.info ? "Save" : "Add"}
@@ -236,6 +256,7 @@ export default function ManagerStaff(props) {
                     setGender("")
                     setPhoneNumber("")
                     setRole("")
+                    setPassword("")
                     setImgUrl("")
                   }}
                 >
