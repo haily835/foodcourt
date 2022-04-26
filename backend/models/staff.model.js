@@ -13,22 +13,18 @@ const staffSchema = new Schema({
   },
   idNumber: {
     type: String,
-    required:true,
   },
   imgUrl: {
     type: String,
   },
   age: {
     type: Number,
-    required: true
   },
   phoneNumber: {
     type: String,
-    required: true
   },
   gender: {
     type: String,
-    required: true
   },
   role: {
     type: String,

@@ -37,7 +37,7 @@ export default function Navbar(props) {
   return (
     <div>
       <div className={classes.root}>
-        <AppBar cookInfo={cookInfo} position="relative">
+        <AppBar cookInfo={cookInfo} position="relative" >
           <Toolbar>
             <IconButton
               edge="start"

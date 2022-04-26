@@ -29,7 +29,7 @@ function ListFood() {
       // only get the new order
       let newOrders = res.data.filter((order) => order.status === "New");
       const renderHTML = () => {
-        return newOrders.map((item) => {
+        return newOrders.reverse().map((item) => {
           return <Order key={item._id} order={item} />;
         });
       };
