@@ -1,9 +1,10 @@
-import React, {useState, useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
+
 import Link from '@material-ui/core/Link';
-import { makeStyles } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
 import Title from './Title';
+import Typography from '@material-ui/core/Typography';
 import axios from 'axios'
+import { makeStyles } from '@material-ui/core/styles';
 
 function preventDefault(event) {
   event.preventDefault();
@@ -25,7 +26,7 @@ export default function Deposits() {
       let returnValue = 0
       let currDate = new Date()
       const id= setInterval(async () => {
-        const res = await axios.get('http://localhost:5000/orders/' + currDate.toDateString())
+        const res = await axios.get('https://foodcourt-backend.herokuapp.com/orders/' + currDate.toDateString())
         console.log(res)
         setTotal(res.data.total)
       }, 1000);

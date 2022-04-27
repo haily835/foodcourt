@@ -1,8 +1,9 @@
-import React, {useState, useEffect} from 'react';
-import { useTheme } from '@material-ui/core/styles';
-import { LineChart, Line, XAxis, YAxis, Label, ResponsiveContainer } from 'recharts';
+import { Label, Line, LineChart, ResponsiveContainer, XAxis, YAxis } from 'recharts';
+import React, {useEffect, useState} from 'react';
+
 import Title from './Title'
 import axios from 'axios'
+import { useTheme } from '@material-ui/core/styles';
 
 // Generate Sales Data
 function createData(time, amount) {
@@ -28,7 +29,7 @@ export default function Chart(props) {
   useEffect(
     () => {
       const id= setInterval(async () => {
-        const res = await axios.get('http://localhost:5000/orders/week')
+        const res = await axios.get('https://foodcourt-backend.herokuapp.com/orders/week')
         console.log(res)
         setData(res.data)
         props.handlePrint(res.data)

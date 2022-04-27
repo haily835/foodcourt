@@ -1,22 +1,18 @@
+import { NavLink, Route, Routes as Switch } from 'react-router-dom';
 import React, {useEffect, useState} from "react"
-import axios from "axios"
-import { makeStyles } from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
 
+import AppBar from '@material-ui/core/AppBar';
 import Button from '@material-ui/core/Button';
+import Emp_manager from './func/emp_manager'
+import Grid from '@material-ui/core/Grid';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
-import { NavLink, Switch, Route } from 'react-router-dom';
-import Grid from '@material-ui/core/Grid';
-
-
-
-
-import Emp_manager from './func/emp_manager'
+import {NavButton} from './vo_style'
 import Rp_manager from './func/rp_manager'
 import Sched_manager from './func/sched_manager'
-import {NavButton} from './vo_style'
+import Toolbar from '@material-ui/core/Toolbar';
+import axios from "axios"
+import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -105,7 +101,7 @@ export default function VendorUI(props) {
 
   useEffect(() => {
     async function load() {
-      const res = await axios.get('http://localhost:5000/users/'+props.match.params.id)
+      const res = await axios.get('https://foodcourt-backend.herokuapp.com/users/'+props.match.params.id)
       setInfo(res.data)
       console.log(res)
     }

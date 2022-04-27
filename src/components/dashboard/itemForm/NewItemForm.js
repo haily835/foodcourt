@@ -1,17 +1,18 @@
-import React from 'react';
-import {useState, useEffect} from 'react'
-import { makeStyles } from '@material-ui/core/styles';
-import Toolbar from '@material-ui/core/Toolbar';
-import Paper from '@material-ui/core/Paper';
+import {useEffect, useState} from 'react'
+
 import Button from '@material-ui/core/Button';
-import Link from '@material-ui/core/Link';
-import Grid from '@material-ui/core/Grid';
-import TextField from '@material-ui/core/TextField';
-import Typography from '@material-ui/core/Typography';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Grid from '@material-ui/core/Grid';
 import Input from '@material-ui/core/Input';
+import Link from '@material-ui/core/Link';
+import Paper from '@material-ui/core/Paper';
+import React from 'react';
+import TextField from '@material-ui/core/TextField';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
 import axios from 'axios'
+import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
@@ -119,7 +120,7 @@ export default function NewItemForm() {
         disabled={!isChangeMade}
         className={classes.submit}
         onClick={()=>{
-            axios.post('http://localhost:5000/items/add', {"imgSrc": itemSrc, "name": itemName, "price": itemPrice, "description": itemDescription})
+            axios.post('https://foodcourt-backend.herokuapp.com/items/add', {"imgSrc": itemSrc, "name": itemName, "price": itemPrice, "description": itemDescription})
           // window.location = window.location
         }}
       >

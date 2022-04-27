@@ -1,16 +1,19 @@
-import React, { useState, useEffect } from "react";
 import "./StaffList.css";
-import Grid from "@material-ui/core/Grid";
-import axios from 'axios'
-import ManageStaff from './ManageStaff'
-import Button from '@material-ui/core/Button';
-import Input from '@material-ui/core/Input';
-import InputLabel from '@material-ui/core/InputLabel';
-import InputAdornment from '@material-ui/core/InputAdornment';
-import FormControl from '@material-ui/core/FormControl';
-import TextField from '@material-ui/core/TextField';
-import SearchIcon from '@material-ui/icons/Search';
+
+import React, { useEffect, useState } from "react";
+
 import { AddCircleOutline } from "@material-ui/icons";
+import Button from '@material-ui/core/Button';
+import FormControl from '@material-ui/core/FormControl';
+import Grid from "@material-ui/core/Grid";
+import Input from '@material-ui/core/Input';
+import InputAdornment from '@material-ui/core/InputAdornment';
+import InputLabel from '@material-ui/core/InputLabel';
+import ManageStaff from './ManageStaff'
+import SearchIcon from '@material-ui/icons/Search';
+import TextField from '@material-ui/core/TextField';
+import axios from 'axios'
+
 var ReactCSSTransitionGroup = require('react-addons-css-transition-group');
 
 function Persona(props) {
@@ -27,7 +30,7 @@ function Persona(props) {
         type="button"
         className="close"
         onClick={() => {
-					axios.delete('http://localhost:5000/staff/delete/'+props.info._id)
+					axios.delete('https://foodcourt-backend.herokuapp.com/staff/delete/'+props.info._id)
             .then(response => { console.log(response.data)});
           window.location = window.location.href
         }}
@@ -75,7 +78,7 @@ function StaffList() {
 	
 	useEffect(() => {
     async function load() {
-      const res = await axios.get('http://localhost:5000/staff/')
+      const res = await axios.get('https://foodcourt-backend.herokuapp.com/staff/')
       setData(res.data)
       console.log(res)
     }

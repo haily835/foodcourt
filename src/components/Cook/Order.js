@@ -1,18 +1,18 @@
+import { Button, ButtonGroup, Container, Snackbar } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
-import { makeStyles } from "@material-ui/core/styles";
+
+import Alert from "@material-ui/lab/Alert";
+import DeleteIcon from "@material-ui/icons/Delete";
+import Paper from "@material-ui/core/Paper";
+import PlayCircleFilledWhiteRoundedIcon from "@material-ui/icons/PlayCircleFilledWhiteRounded";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
 import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
-import Paper from "@material-ui/core/Paper";
 import axios from "axios";
-
-import DeleteIcon from "@material-ui/icons/Delete";
-import PlayCircleFilledWhiteRoundedIcon from "@material-ui/icons/PlayCircleFilledWhiteRounded";
-import Alert from "@material-ui/lab/Alert";
-import { Button, Snackbar, Container, ButtonGroup } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles({
   table: {
@@ -96,7 +96,7 @@ export default function Order(props) {
   const handleFinish = (orderID) => {
     handleOpen("The order is finished.");
     axios
-      .post("http://localhost:5000/orders/" + orderID + "/" + "Ready")
+      .post("https://foodcourt-backend.herokuapp.com/orders/" + orderID + "/" + "Ready")
       .then((res) => console.log(res));
   };
 
@@ -104,7 +104,7 @@ export default function Order(props) {
   const handleDeny = (orderID) => {
     handleOpen("The order is denied.");
     axios
-      .post("http://localhost:5000/orders/" + orderID + "/" + "Denied")
+      .post("https://foodcourt-backend.herokuapp.com/orders/" + orderID + "/" + "Denied")
       .then((res) => console.log(res));
   };
 

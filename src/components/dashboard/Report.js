@@ -1,17 +1,19 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
+
+import { Button } from "@material-ui/core";
+import Chart from "./Chart";
+import Container from "@material-ui/core/Container";
+import Deposits from "./Deposits";
+import Grid from "@material-ui/core/Grid";
+import ItemMenuChart from "./ItemMenuChart";
+import ItemRatingChart from "./ItemRatingChart";
+import Orders from "./Orders";
+import Paper from "@material-ui/core/Paper";
+import axios from "axios";
 import clsx from "clsx";
 import { makeStyles } from "@material-ui/core/styles";
-import Container from "@material-ui/core/Container";
-import Grid from "@material-ui/core/Grid";
-import Paper from "@material-ui/core/Paper";
-import Chart from "./Chart";
-import Deposits from "./Deposits";
-import Orders from "./Orders";
-import ItemRatingChart from "./ItemRatingChart";
-import ItemMenuChart from "./ItemMenuChart";
-import axios from "axios";
-import { Button } from "@material-ui/core";
 import { saveAs } from "file-saver";
+
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
@@ -47,7 +49,7 @@ export default function Report() {
   const [ratingData, setRatingData] = useState({});
   useEffect(() => {
     const loadData = async () => {
-      const result = await axios.get("http://localhost:5000/items/", {
+      const result = await axios.get("https://foodcourt-backend.herokuapp.com/items/", {
         signal: abortController.signal,
       });
       if (!isReportUnMount) {
@@ -65,12 +67,12 @@ export default function Report() {
 
   const createAndDownloadPdf = () => {
     axios
-      .post("http://localhost:5000/create-pdf", {
+      .post("https://foodcourt-backend.herokuapp.com/create-pdf", {
         sevenDaysPeriod: sevenDaysPeriod,
         items: items,
       })
       .then(() =>
-        axios.get("http://localhost:5000/fetch-pdf", { responseType: "blob" })
+        axios.get("https://foodcourt-backend.herokuapp.com/ofetch-pdf", { responseType: "blob" })
       )
       .then((res) => {
         const pdfBlob = new Blob([res.data], { type: "application/pdf" });

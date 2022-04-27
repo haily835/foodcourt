@@ -1,20 +1,21 @@
-import React, {useState, useEffect} from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import React, {useEffect, useState} from 'react';
+
+import { Button } from '@material-ui/core';
+import DeleteIcon from '@material-ui/icons/Delete';
+import EditIcon from '@material-ui/icons/Edit';
+import Grid from '@material-ui/core/Grid';
+import ItemEditForm from './itemForm/ItemEditForm';
+import MinimizeIcon from '@material-ui/icons/Minimize';
+import NewItemForm from './itemForm/NewItemForm'
+import Paper from '@material-ui/core/Paper';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
-import DeleteIcon from '@material-ui/icons/Delete';
-import EditIcon from '@material-ui/icons/Edit';
-import MinimizeIcon from '@material-ui/icons/Minimize';
-import Grid from '@material-ui/core/Grid';
 import axios from 'axios';
-import ItemEditForm from './itemForm/ItemEditForm';
-import { Button } from '@material-ui/core';
-import NewItemForm from './itemForm/NewItemForm'
+import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles({
   table: {
@@ -29,7 +30,7 @@ export default function SimpleTable() {
   const [openNewItem, setNewItem] = useState(false)
   const [editingItem, setEditingItem] = useState({})
   const getItems = () => {
-    axios.get('http://localhost:5000/items/') 
+    axios.get('https://foodcourt-backend.herokuapp.com/items/') 
       .then(res => {
         setItems(res.data)
       })
@@ -61,7 +62,7 @@ export default function SimpleTable() {
                   <TableCell align="left">{item.price}</TableCell>
                   <TableCell component="th" scope="row">
                     <DeleteIcon onClick={() => {
-                        axios.delete('http://localhost:5000/items/delete/'+item._id)
+                        axios.delete('https://foodcourt-backend.herokuapp.com/items/delete/'+item._id)
                           .then(response => { console.log(response.data)});
                         window.location = window.location.href
                       }}

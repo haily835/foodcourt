@@ -1,36 +1,31 @@
-import React from "react";
-import clsx from "clsx";
-import { makeStyles } from "@material-ui/core/styles";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import Drawer from "@material-ui/core/Drawer";
 import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
-import List from "@material-ui/core/List";
-import Typography from "@material-ui/core/Typography";
-import Divider from "@material-ui/core/Divider";
-import IconButton from "@material-ui/core/IconButton";
-import MenuIcon from "@material-ui/icons/Menu";
-import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
+import BarChartIcon from "@material-ui/icons/BarChart";
 import Button from "@material-ui/core/Button";
+import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import CustomerDashboard from "./customerDashBoard/CustomerDashboard";
+import DashboardIcon from "@material-ui/icons/Dashboard";
+import Divider from "@material-ui/core/Divider";
+import Drawer from "@material-ui/core/Drawer";
+import IconButton from "@material-ui/core/IconButton";
+import ItemTable from "./ItemTable";
+import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
-import DashboardIcon from "@material-ui/icons/Dashboard";
-import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
-import PeopleIcon from "@material-ui/icons/People";
-import BarChartIcon from "@material-ui/icons/BarChart";
-import ItemTable from "./ItemTable";
-import {
-  BrowserRouter as Router,
-  Route,
-  Switch,
-  useRouteMatch,
-} from "react-router-dom";
-import { Link as RouterLink } from "react-router-dom";
-import Report from "./Report";
 import ManageStaff from "./ManageStaff";
+import MenuIcon from "@material-ui/icons/Menu";
+import PeopleIcon from "@material-ui/icons/People";
+import React from "react";
+import Report from "./Report";
+import { Link as RouterLink } from "react-router-dom";
+import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 import StaffList from "./StaffList";
-import CustomerDashboard from "./customerDashBoard/CustomerDashboard";
+import Toolbar from "@material-ui/core/Toolbar";
+import Typography from "@material-ui/core/Typography";
+import clsx from "clsx";
+import { makeStyles } from "@material-ui/core/styles";
+import { useState } from "react";
 
 const drawerWidth = 240;
 
@@ -107,7 +102,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Dashboard(props) {
-  let { path, url } = useRouteMatch();
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
   const handleDrawerOpen = () => {
@@ -117,44 +111,58 @@ export default function Dashboard(props) {
     setOpen(false);
   };
 
+  const [selected, setSelected] = useState("report");
+
   const mainListItems = (
     <>
-      <RouterLink style={{ textDecoration: "none" }} to={`${url}/report`}>
-        <ListItem button>
-          <ListItemIcon>
-            <BarChartIcon />
-          </ListItemIcon>
-          <ListItemText primary="Reports" />
-        </ListItem>
-      </RouterLink>
+      <ListItem
+        button
+        onClick={() => {
+          setSelected("report");
+        }}
+      >
+        <ListItemIcon>
+          <BarChartIcon />
+        </ListItemIcon>
+        <ListItemText primary="Reports" />
+      </ListItem>
 
-      <RouterLink style={{ textDecoration: "none" }} to={`${url}/editMenu`}>
-        <ListItem>
-          <ListItemIcon>
-            <DashboardIcon />
-          </ListItemIcon>
-          <ListItemText>Edit menu</ListItemText>
-        </ListItem>
-      </RouterLink>
+      <ListItem
+        button
+        onClick={() => {
+          setSelected("edit-menu");
+        }}
+      >
+        <ListItemIcon>
+          <DashboardIcon />
+        </ListItemIcon>
+        <ListItemText>Edit menu</ListItemText>
+      </ListItem>
 
-      <RouterLink style={{ textDecoration: "none" }} to={`${url}/viewStaff`}>
-        <ListItem button>
-          <ListItemIcon>
-            <ShoppingCartIcon />
-          </ListItemIcon>
-          <ListItemText primary="View all staff" />
-        </ListItem>
-      </RouterLink>
+      <ListItem
+        button
+        onClick={() => {
+          setSelected("staff");
+        }}
+      >
+        <ListItemIcon>
+          <ShoppingCartIcon />
+        </ListItemIcon>
+        <ListItemText primary="View all staff" />
+      </ListItem>
 
-      <RouterLink style={{ textDecoration: "none" }} to={`${url}/addStaff`}>
-        <ListItem button>
-          <ListItemIcon>
-            <PeopleIcon />
-          </ListItemIcon>
+      <ListItem
+        button
+        onClick={() => {
+          setSelected("customer-report");
+        }}
+      >
+        <ListItemIcon>
+          <PeopleIcon />
+        </ListItemIcon>
 
-          <ListItemText primary="Customer mangement" />
-        </ListItem>
-      </RouterLink>
+        <ListItemText primary="Customer mangement" />
+      </ListItem>
     </>
   );
 
@@ -192,68 +200,42 @@ export default function Dashboard(props) {
             {props.name}
           </Typography>
           <IconButton color="inherit">
-            <Button
-              variant="contained"
-              onClick={() => (window.location = "/foodcourt")}
-            >
+            <Button variant="contained" onClick={() => (window.location = "/")}>
               Log Out
             </Button>
           </IconButton>
         </Toolbar>
       </AppBar>
-
-      <Router>
-        <Drawer
-          variant="permanent"
-          classes={{
-            paper: clsx(classes.drawerPaper, !open && classes.drawerPaperClose),
+      <Drawer
+        variant="permanent"
+        classes={{
+          paper: clsx(classes.drawerPaper, !open && classes.drawerPaperClose),
+        }}
+        open={open}
+        style={{ height: "100vh" }}
+        color="#485461"
+      >
+        <div className={classes.toolbarIcon}>
+          <IconButton onClick={handleDrawerClose}>
+            <ChevronLeftIcon />
+          </IconButton>
+        </div>
+        <Divider />
+        <List
+          style={{
+            height: "100%",
           }}
-          open={open}
-          style={{ height: "100vh" }}
-          color="#485461"
         >
-          <div className={classes.toolbarIcon}>
-            <IconButton onClick={handleDrawerClose}>
-              <ChevronLeftIcon />
-            </IconButton>
-          </div>
-          <Divider />
-          <List
-            style={{
-              height: "100%",
-            }}
-          >
-            {mainListItems}
-          </List>
-        </Drawer>
-
-        <Switch>
-          <Route path={`${path}/report`}>
-            <main className={classes.content}>
-              <div className={classes.appBarSpacer} />
-              <Report />
-            </main>
-          </Route>
-          <Route path={`${path}/editMenu`}>
-            <main className={classes.content}>
-              <div className={classes.appBarSpacer} />
-              <ItemTable />
-            </main>
-          </Route>
-          <Route path={`${path}/viewStaff`}>
-            <main className={classes.content}>
-              <div className={classes.appBarSpacer} />
-              <StaffList />
-            </main>
-          </Route>
-          <Route path={`${path}/addStaff`}>
-            <main className={classes.content}>
-              <div className={classes.appBarSpacer} />
-              <CustomerDashboard />
-            </main>
-          </Route>
-        </Switch>
-      </Router>
+          {mainListItems}
+        </List>
+      </Drawer>
+      <main className={classes.content}>
+        <div className={classes.appBarSpacer} />
+        {selected === "report" && <Report />}
+        {selected === "edit-menu" && <ItemTable />}
+        {selected === "staff" && <StaffList />}
+        {selected === "customer-report" && <CustomerDashboard />}
+      </main>
     </div>
   );
 }

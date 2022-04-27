@@ -1,24 +1,25 @@
-import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import clsx from 'clsx';
+import AddShoppingCart from '@material-ui/icons/AddShoppingCart';
+import Avatar from '@material-ui/core/Avatar';
+import Box from '@material-ui/core/Box';
 import Card from '@material-ui/core/Card';
+import CardActions from '@material-ui/core/CardActions';
+import CardContent from '@material-ui/core/CardContent';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardMedia from '@material-ui/core/CardMedia';
-import CardContent from '@material-ui/core/CardContent';
-import CardActions from '@material-ui/core/CardActions';
 import Collapse from '@material-ui/core/Collapse';
-import Avatar from '@material-ui/core/Avatar';
-import IconButton from '@material-ui/core/IconButton';
-import Typography from '@material-ui/core/Typography';
-import { red } from '@material-ui/core/colors';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import IconButton from '@material-ui/core/IconButton';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import Rating from '@material-ui/lab/Rating';
+import React from 'react';
 import StarBorderIcon from '@material-ui/icons/StarBorder';
-import Box from '@material-ui/core/Box';
+import Typography from '@material-ui/core/Typography';
 import axios from 'axios'
-import AddShoppingCart from '@material-ui/icons/AddShoppingCart';
+import clsx from 'clsx';
+import { makeStyles } from '@material-ui/core/styles';
+import { red } from '@material-ui/core/colors';
 import {thousands_separators} from './CheckList.compoment'
+
 const useStyles = makeStyles((theme) => ({
   root: {
     maxWidth: 345,
@@ -100,7 +101,7 @@ export default function Item(props) {
               rating = "fiveStar"
             }
             alert("you rate this item" + rating)
-            axios.post('http://localhost:5000/items/rating/' + props.info._id, { "rating": rating })
+            axios.post('https://foodcourt-backend.herokuapp.com/items/rating/' + props.info._id, { "rating": rating })
               .then(res => console.log(res))
           }}
         />

@@ -1,19 +1,20 @@
-import React, { useState, useEffect } from "react";
-import Container from "@material-ui/core/Container";
-import Grid from "@material-ui/core/Grid";
-import Paper from "@material-ui/core/Paper";
-import TextField from "@material-ui/core/TextField";
-import InputAdornment from "@material-ui/core/InputAdornment";
+import React, { useEffect, useState } from "react";
+
 import AccountCircle from "@material-ui/icons/AccountCircle";
-import Input from "@material-ui/core/Input";
+import Button from '@material-ui/core/Button';
+import Container from "@material-ui/core/Container";
 import FormControl from "@material-ui/core/FormControl";
-import { makeStyles } from "@material-ui/core/styles";
-import Radio from '@material-ui/core/Radio';
-import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormLabel from '@material-ui/core/FormLabel';
-import Button from '@material-ui/core/Button';
+import Grid from "@material-ui/core/Grid";
+import Input from "@material-ui/core/Input";
+import InputAdornment from "@material-ui/core/InputAdornment";
+import Paper from "@material-ui/core/Paper";
+import Radio from '@material-ui/core/Radio';
+import RadioGroup from '@material-ui/core/RadioGroup';
+import TextField from "@material-ui/core/TextField";
 import axios from 'axios'
+import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -223,15 +224,15 @@ export default function ManagerStaff(props) {
                     }
 
                     if(props.info) {
-                      axios.post('http://localhost:5000/staff/' + props.info._id, staff)
+                      axios.post('https://foodcourt-backend.herokuapp.com/staff/' + props.info._id, staff)
                         .then(res => console.log(res.data))
                         
                       
                     } else {
-                      axios.post('http://localhost:5000/staff/add', staff)
+                      axios.post('https://foodcourt-backend.herokuapp.com/staff/add', staff)
                         .then(res => console.log(res.data))
                     }
-                    // window.location = window.location
+                    window.location = window.location
                     setName("")
                         setEmail("")
                         setIdNumber("")

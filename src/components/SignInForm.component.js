@@ -1,18 +1,22 @@
 import React, {useState} from 'react';
+
 import Avatar from '@material-ui/core/Avatar';
-import Button from '@material-ui/core/Button';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
-import Link from '@material-ui/core/Link';
-import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
+import Button from '@material-ui/core/Button';
+import Checkbox from '@material-ui/core/Checkbox';
 import Container from '@material-ui/core/Container';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Grid from '@material-ui/core/Grid';
+import Link from '@material-ui/core/Link';
+import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
+import  { Redirect } from 'react-router-dom'
+import TextField from '@material-ui/core/TextField';
+import Typography from '@material-ui/core/Typography';
 import axios from 'axios';
+import { browserHistory } from 'react-router';
+import { makeStyles } from '@material-ui/core/styles';
+import { useNavigate } from "react-router-dom";
 
 function Copyright() {
   return (
@@ -49,7 +53,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SignInForm() {
   const classes = useStyles();
-
+  const navigate = useNavigate();
   const [enteredEmail, setEnteredEmail] = useState("")
   const [enteredPass, setEnteredPass] = useState("")
 
@@ -68,27 +72,13 @@ export default function SignInForm() {
           noValidate
           onSubmit={(e)=>{
             e.preventDefault()
-            axios.get('http://localhost:5000/users/' + enteredEmail + '/' + enteredPass)
+            axios.get('https://foodcourt-backend.herokuapp.com/users/' + enteredEmail + '/' + enteredPass)
               .then(res => {
                 if(res.data.length === 0) {
                   alert("Incorrect password or email")
                 } else {
                   alert("Login successfully!")
-                  if(res.data[0].role === "manager") {
-                    window.location = '/user/manager/' + res.data[0]._id;
-                  }
-                  if(res.data[0].role === "customer") {
-                    window.location = '/user/customer/' + res.data[0]._id;
-                  }
-                  if(res.data[0].role === "it") {
-                    window.location = '/user/it/' + res.data[0]._id;
-                  }
-                  if(res.data[0].role === "cook") {
-                    window.location = '/user/cook/' + res.data[0]._id;
-                  }
-                  if(res.data[0].role === "vendor") {
-                    window.location = '/user/vendor/' + res.data[0]._id;
-                  }
+                  navigate(`/user/${res.data[0].role}/${res.data[0]._id}`)
                 }
               })
           }}

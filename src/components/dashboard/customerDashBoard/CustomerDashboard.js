@@ -1,16 +1,15 @@
-import React, { useRef, useState, useEffect } from "react";
-import { Form, Input, InputNumber, Space, Divider, Row, Col } from "antd";
-import axios from 'axios';
-
-import { Layout, Breadcrumb, Statistic, Progress, Tag } from "antd";
-
-import { ArrowUpOutlined, ArrowDownOutlined } from "@ant-design/icons";
+import { ArrowDownOutlined, ArrowUpOutlined } from "@ant-design/icons";
+import { Breadcrumb, Layout, Progress, Statistic, Tag } from "antd";
+import { Col, Divider, Form, Input, InputNumber, Row, Space } from "antd";
+import React, { useEffect, useRef, useState } from "react";
 
 import DashboardLayout from "./CustomerDashboardLayout";
 import RecentTable from "./RecentTable";
-import setUser from "npm/lib/config/set-user";
 import _ from 'lodash';
+import axios from 'axios';
 import moment from 'moment'
+import setUser from "npm/lib/config/set-user";
+
 const TopCard = ({ title, tagContent, tagColor, prefix }) => {
   return (
     <Col
@@ -143,8 +142,8 @@ export default function CustomerDashboard() {
   }
 
   const isOrderThisMonth = (cust) => {
-    const priorDate = moment().subtract(30, 'days').toString();
-    if (orders.find(o => o.createdAt >= priorDate)) {
+    const priorDate = moment().subtract(30, 'days').toISOString();
+    if (orders.find(o => o.customerID === cust._id && o.createdAt >= priorDate)) {
       return <Tag color={'green'}>{"Ordered this month"}</Tag>;
     } else {
       return null;
@@ -152,8 +151,8 @@ export default function CustomerDashboard() {
   }
 
   const isInActive = (cust) => {
-    const priorDate = moment().subtract(30, 'days').toString();
-    if (!orders.find(o => o.customerID === cust._id) || !orders.find(o => o.customerID === cust._id && o.createdAt >= priorDate )) {
+    const priorDate = moment().subtract(30, 'days').toISOString();
+    if (!orders.find(o => o.customerID === cust._id && o.createdAt >= priorDate )) {
       return <Tag color={'red'}>{"Inactive this month"}</Tag>;
     } else {
       return null;
@@ -170,23 +169,38 @@ export default function CustomerDashboard() {
   }
 
   const [isReportUnMount, setReportUnMount] = useState(false);
+
+  useEffect(
+    () => {
+      const id= setInterval(async () => {
+        loadData();
+      }, 5000);
+      return () => {
+        clearInterval(id);
+      };
+    },
+    ['once'],
+  );
+  
+  const loadData = async () => {
+    const resultItems = await axios.get("https://foodcourt-backend.herokuapp.com/items/", {
+      signal: abortController.signal,
+    });
+    const resultUsers = await axios.get("https://foodcourt-backend.herokuapp.com/users/", {
+      signal: abortController.signal,
+    });
+    const resultOrders = await axios.get("https://foodcourt-backend.herokuapp.com/orders/", {
+      signal: abortController.signal,
+    });
+    if (!isReportUnMount) {
+      setItems(resultItems.data);
+      setUsers(resultUsers.data);
+      setOrders(resultOrders.data?.filter(o => o.status).reverse());
+    }
+  };
+
   useEffect(() => {
-    const loadData = async () => {
-      const resultItems = await axios.get("http://localhost:5000/items/", {
-        signal: abortController.signal,
-      });
-      const resultUsers = await axios.get("http://localhost:5000/users/", {
-        signal: abortController.signal,
-      });
-      const resultOrders = await axios.get("http://localhost:5000/orders/", {
-        signal: abortController.signal,
-      });
-      if (!isReportUnMount) {
-        setItems(resultItems.data);
-        setUsers(resultUsers.data);
-        setOrders(resultOrders.data?.filter(o => o.status).reverse());
-      }
-    };
+    
     loadData();
 
     // clean up
@@ -389,15 +403,15 @@ export default function CustomerDashboard() {
                 Customer Preview
               </h3>
 
-              <Progress type="dashboard" percent={25} width={148} />
+              <Progress type="dashboard" percent={Math.round((users.filter(u => isNew(u) && u.role==='customer').length / users.filter(u => u.role==='customer').length)* 100)} width={148} />
               <p>New Customer this Month</p>
               <Divider />
               <Statistic
                 title="Active Customer"
-                value={11.28}
+                value={Math.round((users.filter(u => isOrderThisMonth(u) && u.role==='customer').length / users.filter(u => u.role==='customer').length)* 100)}
                 precision={2}
                 valueStyle={{ color: "#3f8600" }}
-                prefix={<ArrowUpOutlined />}
+                prefix={null}
                 suffix="%"
               />
             </div>

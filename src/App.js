@@ -1,28 +1,29 @@
-import React from 'react';
-import RegisterForm from "./components/RegisterForm.component"
-import SignInForm from "./components/SignInForm.component"
-import ManagerUI from "./components/ManagerUI.component"
-import CustomerUI from "./components/CustomerUI.component"
-import ReactDOM from 'react-dom';
-import Button from '@material-ui/core'
-import { BrowserRouter as Router, Route} from "react-router-dom";
-import VendorUI from "./components/Vendor/VendorUI"
-import CookUI from "./components/Cook/CookUI"
-import ItUI from "./components/IT/ItUI"
+// This is a React Router v6 app
+
+import { BrowserRouter, Link, Route, Routes } from "react-router-dom";
+
+import Button from "@material-ui/core";
+import CookUI from "./components/Cook/CookUI";
+import CustomerUI from "./components/CustomerUI.component";
+import ItUI from "./components/IT/ItUI";
+import ManagerUI from "./components/ManagerUI.component";
+import React from "react";
+import RegisterForm from "./components/RegisterForm.component";
+import SignInForm from "./components/SignInForm.component";
+import VendorUI from "./components/Vendor/VendorUI";
 
 function App() {
   return (
-    <Router>
-      <div className="container">
-          <Route path="/foodcourt" exact component={SignInForm} />
-          <Route path="/user/add" component={RegisterForm} />
-          <Route path="/user/manager/:id" component={ManagerUI} />
-          <Route path="/user/customer/:id" component={CustomerUI} />
-          <Route path="/user/cook/:id" component={CookUI} />
-          <Route path="/user/it/:id" component={ItUI} />
-          <Route path="/user/vendor/:id" component={VendorUI} />
-      </div>
-    </Router>
+    <Routes>
+      <Route path="/" element={<SignInForm />} />
+      <Route path="/foodcourt" element={<SignInForm />} />
+      <Route path="/user/add" element={<RegisterForm />} />
+      <Route path="/user/manager/:id" element={<ManagerUI />} />
+      <Route path="/user/customer/:id" element={<CustomerUI />} />
+      <Route path="/user/cook/:id" element={<CookUI />} />
+      <Route path="/user/it/:id" element={<ItUI />} />
+      <Route path="/user/vendor/:id" element={<VendorUI />} />
+    </Routes>
   );
 }
 

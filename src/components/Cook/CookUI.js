@@ -1,7 +1,9 @@
 import React, { useEffect } from "react";
+
+import Navbar from "./Navbar.js";
 import axios from "axios";
 import { makeStyles } from "@material-ui/core/styles";
-import Navbar from "./Navbar.js";
+import { useParams } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -25,10 +27,10 @@ export default function CookUI(props) {
   // this contain use information: name, password, email, role
   const classes = useStyles();
   const [cookInfo, setInfo] = React.useState({});
-
+  let params = useParams()
   useEffect(() => {
     axios
-      .get("http://localhost:5000/users/" + props.match.params.id)
+      .get("https://foodcourt-backend.herokuapp.com/users/" + params.id)
       .then((res) => {
         setInfo(res.data);
       })

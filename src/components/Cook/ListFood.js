@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
+
+import Alert from "@material-ui/lab/Alert";
+import Order from "./Order";
 import axios from "axios";
 import { makeStyles } from "@material-ui/core/styles";
-
-import Order from "./Order";
-import Alert from "@material-ui/lab/Alert";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -24,7 +24,7 @@ function ListFood() {
 
   useEffect(() => {
     const id = setInterval(async () => {
-      const res = await axios.get("http://localhost:5000/orders/");
+      const res = await axios.get("https://foodcourt-backend.herokuapp.com/orders/");
 
       // only get the new order
       let newOrders = res.data.filter((order) => order.status === "New");
