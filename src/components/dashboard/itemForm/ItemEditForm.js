@@ -130,10 +130,12 @@ export default function ItemEditForm(props) {
         onClick={()=>{
           if(props.item._id) {
             axios.post('https://foodcourt-backend.herokuapp.com/items/'+ props.item._id, {"imgSrc": itemSrc, "name": itemName, "price": itemPrice, "description": itemDescription})
+              .then(res => props.handleClose())
           } else {
             axios.post('https://foodcourt-backend.herokuapp.com/items/add', {"imgSrc": itemSrc, "name": itemName, "price": itemPrice, "description": itemDescription})
+              .then(res => props.handleClose())
           }
-          window.location = window.location
+          props.handleClose()
         }}
       >
         Submit

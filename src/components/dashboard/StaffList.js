@@ -30,9 +30,12 @@ function Persona(props) {
         type="button"
         className="close"
         onClick={() => {
-					axios.delete('https://foodcourt-backend.herokuapp.com/staff/delete/'+props.info._id)
-            .then(response => { console.log(response.data)});
-          window.location = window.location.href
+			axios.delete('https://foodcourt-backend.herokuapp.com/staff/delete/'+props.info._id)
+            .then(response => { 
+				console.log(response.data)
+				props.handleClose(prev => !prev)
+			});
+          
         }}
       >
         &times;
@@ -101,7 +104,7 @@ function StaffList() {
 		var items = resultItems.map(item => 
 			<div className="card__container" key={data.key}>
 				<div className="card__content">
-					<Persona info={item} handleSelectStaff={handleSelectStaff} handleClose={setIsEdit}/>
+					<Persona info={item} handleSelectStaff={handleSelectStaff} handleClose={() => {setRefresh(prev => !prev);}}/>
 				</div>
 			</div>
 		);
@@ -112,7 +115,7 @@ function StaffList() {
     var items = data.map(item => 
         <div className="card__container" key={data.key}>
           <div className="card__content">
-            <Persona info={item} handleSelectStaff={handleSelectStaff} handleClose={setIsEdit}/>
+            <Persona info={item} handleSelectStaff={handleSelectStaff} handleClose={() => {setRefresh(prev => !prev);}}/>
           </div>
         </div>
     );

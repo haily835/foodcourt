@@ -28,6 +28,7 @@ export default function SimpleTable() {
   const [items, setItems] = useState([])
   const [openEdit, setOpenEdit] = useState(false)
   const [openNewItem, setNewItem] = useState(false)
+  const [refresh, setRefresh] = useState(false)
   const [editingItem, setEditingItem] = useState({})
   const getItems = () => {
     axios.get('https://foodcourt-backend.herokuapp.com/items/') 
@@ -37,7 +38,7 @@ export default function SimpleTable() {
       .catch(error => console.log('can not get data'))
   }
 
-  useEffect(getItems,[])
+  useEffect(() => {getItems()},[refresh])
 
   return (
     <Grid container spacing={3}>
@@ -63,8 +64,11 @@ export default function SimpleTable() {
                   <TableCell component="th" scope="row">
                     <DeleteIcon onClick={() => {
                         axios.delete('https://foodcourt-backend.herokuapp.com/items/delete/'+item._id)
-                          .then(response => { console.log(response.data)});
-                        window.location = window.location.href
+                          .then(response => { 
+                            console.log(response.data)
+                            setRefresh(prev => !prev)
+                          });
+                        // window.location = window.location.href
                       }}
                     />
                     <MinimizeIcon />
@@ -91,16 +95,22 @@ export default function SimpleTable() {
           Add new item
         </Button>
       </Grid>
-      <Grid item xs style={{display: openEdit ? "" :"none"}}>
+     {openEdit && <Grid item xs style={{display: openEdit ? "" :"none"}}>
         <div>
-          <ItemEditForm item={editingItem}/>
+          <ItemEditForm item={editingItem} handleClose={() => {
+            setRefresh(prev => !prev)
+            setOpenEdit(false);
+            }}/>
         </div>
-      </Grid>
-      <Grid item xs style={{display: openNewItem ? "" :"none"}}>
+      </Grid>}
+      {openNewItem && <Grid item xs style={{display: openNewItem ? "" :"none"}}>
         <div>
-          <NewItemForm />
+          <NewItemForm handleClose={() => {
+            setRefresh(prev => !prev)
+            setNewItem(false)
+            }} />
         </div>
-      </Grid>
+      </Grid>}
     </Grid>
   );
 }

@@ -113,10 +113,12 @@ export default function Payment(props){
                 <CardActions>
                     <Button variant="contained" color="secondary" className={classes.button} onClick={()=> {
                         axios.post('https://foodcourt-backend.herokuapp.com/orders/add', props.items)
-                            .then(res => console.log(res));
-                        setPaymentIsOpen(false)
-                        alert("Order successfully!")
-                        window.location = '/user/customer/' + props.items.customerID
+                            .then(res => {
+                                console.log(res)
+                                setPaymentIsOpen(false)
+                                alert("Order successfully!")
+                                window.location = '/user/customer/' + props.items.customerID
+                        });
                     }}
                     >
                     Get Payment

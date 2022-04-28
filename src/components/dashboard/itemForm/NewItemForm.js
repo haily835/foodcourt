@@ -13,6 +13,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import axios from 'axios'
 import { makeStyles } from '@material-ui/core/styles';
+import { propTypes } from 'react-addons-css-transition-group';
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
@@ -37,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-export default function NewItemForm() {
+export default function NewItemForm(props) {
   const classes = useStyles()
   const [isChangeMade, setChangeMade] = useState(false)
   const [itemName, setItemName] = useState("")
@@ -121,7 +122,10 @@ export default function NewItemForm() {
         className={classes.submit}
         onClick={()=>{
             axios.post('https://foodcourt-backend.herokuapp.com/items/add', {"imgSrc": itemSrc, "name": itemName, "price": itemPrice, "description": itemDescription})
-          // window.location = window.location
+              .then(res => {
+                props.handleClose()
+              })
+              props.handleClose()
         }}
       >
         Submit

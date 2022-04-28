@@ -225,14 +225,20 @@ export default function ManagerStaff(props) {
 
                     if(props.info) {
                       axios.post('https://foodcourt-backend.herokuapp.com/staff/' + props.info._id, staff)
-                        .then(res => console.log(res.data))
+                        .then(res => {
+                          console.log(res.data)
+                          props.handleClose()
+                        })
                         
                       
                     } else {
                       axios.post('https://foodcourt-backend.herokuapp.com/staff/add', staff)
-                        .then(res => console.log(res.data))
+                        .then(res => {
+                          console.log(res.data)
+                          props.handleClose();
+                        })
                     }
-                    window.location = window.location
+                    // window.location = window.location
                     setName("")
                         setEmail("")
                         setIdNumber("")
